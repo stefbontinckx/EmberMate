@@ -1,34 +1,26 @@
 <p align="center">
-  <img src="EmberMate/Assets.xcassets/AppIcon.appiconset/Icon 256.png" alt="EmberMate" width="128" /> <br /><br />
-  <span>Control your <a href="https://ember.com/">ember mug</a>, directly from your MacOS menubar</span>
+  <img src="EmberBar/Assets.xcassets/AppIcon.appiconset/icon_256.png" alt="EmberBar" width="128" />
 </p>
 
+# EmberBar
 
-# EmberMate
+A personal macOS menu bar app for controlling an [Ember mug](https://ember.com/).
 
-A menubar application for controlling ember mugs
+EmberBar is a fork of [EmberMate](https://github.com/matthewnitschke/EmberMate) by Matthew Nitschke, released under the MIT license (see `LICENSE`).
 
-![with-timer](https://github.com/matthewnitschke/EmberMate/assets/6363089/6b37e508-8a57-4129-b1ca-23a09f260f7e)
+## Changes compared to EmberMate
 
-## Support this project
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/matthewnitschke)
+- The °C/°F choice is stored in the app and pushed to the mug, so it no longer falls back to °F.
+- Redesigned menu bar window: temperature ring, mug status, power button, +/− controls and preset cards.
+- Heating can be turned off, by hand or automatically a set time after filling the mug.
+- Estimates: time until the drink reaches its target, how much is left in the mug, and cups and millilitres drunk today (optional, stored only on this Mac).
+- Mug settings: rename the mug, LED colour swatches with brightness, capacity, model and firmware details.
+- Notifications arrive with banner and sound, including "fully charged" and "heating stopped".
+- Translated into Dutch, French, German, Spanish, Italian, Portuguese, Polish, Swedish, Danish, Norwegian, Finnish and Japanese.
+- New app icon, no update checks against the upstream project, and fixes for several crashes in the Bluetooth code.
 
-# Installation
+Protocol details come from the reverse-engineering work in [orlopau/ember-mug](https://github.com/orlopau/ember-mug) and [sopelj/python-ember-mug](https://github.com/sopelj/python-ember-mug).
 
-- Download the latest `EmberMate.dmg` file from the [Releases](https://github.com/matthewnitschke/EmberMate/releases) page
-- Extract the zip file and drag the .app (will be called EmberMate) to your Applications folder
-- IMPORTANT! You will get a popup saying that EmberMate cannot be opened. See the below section for why this, but the setting can be overwritten by going to `System Settings` -> `Privacy & Security` -> `Open Anyway`
+## Building
 
-## Why does apple think EmberMate is malicious software?
-
-<img width="501" alt="NotOpened" src="https://github.com/user-attachments/assets/dbbec166-c407-42ac-a66b-77d2c54b03d4" />
-
-This message is displayed because the `EmberMate` application is not what you would call "signed". Apple charges developers yearly to sign applications, and this is something I do not want to pay for at this time
-
-You can override this by navigating to "System Settings" -> "Privacy & Security" and clicking "Open Anyway" in the Security section
-
-![OpenAnyway](https://github.com/user-attachments/assets/e3304f98-3e88-4289-a799-3df67d26a848)
-
-## Credits
-
-Huge thanks to orlopau and their [ember-mug](https://github.com/orlopau/ember-mug) repo for reverse engineering the ember mug bluetooth api
+Open `EmberBar.xcodeproj` in Xcode and run the `EmberBar` scheme, or archive it via Product → Archive.
