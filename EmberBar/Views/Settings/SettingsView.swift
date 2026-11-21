@@ -38,6 +38,7 @@ struct GeneralSettingsView: View {
     @EnvironmentObject private var appState: AppState
     @EnvironmentObject private var drinkTracker: DrinkTracker
     @AppStorage(DrinkTracker.trackingKey) private var trackDrinking = true
+    @AppStorage("menuBarShowsTimeToTarget") private var menuBarShowsTimeToTarget = false
 
     @Environment(\.openURL) private var openURL
 
@@ -106,9 +107,16 @@ struct GeneralSettingsView: View {
             }
 
             Section {
+                Picker("Menu bar shows", selection: $menuBarShowsTimeToTarget) {
+                    Text("Current temperature").tag(false)
+                    Text("Time until ready").tag(true)
+                }
                 LaunchAtLogin.Toggle { Text("Open at login") }
             } header: {
                 Text("App")
+            } footer: {
+                Text("Time until ready shows while the drink heats up or cools down; otherwise the temperature is shown.")
+                    .foregroundStyle(.secondary)
             }
         }
         .formStyle(.grouped)

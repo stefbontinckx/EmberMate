@@ -16,6 +16,7 @@ struct EmberBarApp: App {
 
     @ObservedObject private var autoOff: AutoOffController
     @ObservedObject private var drinkTracker: DrinkTracker
+    @AppStorage("menuBarShowsTimeToTarget") private var menuBarShowsTimeToTarget = false
 
     private var notificationAdapter: NotificationAdapter
 
@@ -48,7 +49,13 @@ struct EmberBarApp: App {
                 if (appState.countdown != nil) {
                     Text(formatCountdown(appState.countdown!))
                 } else if (bluetoothManager.state == .connected && emberMug.liquidState != .empty) {
-                    Text(getFormattedTemperature(emberMug.currentTemp, unit: emberMug.temperatureUnit))
+                    // While heating or cooling, optionally show the time left instead;
+                    // otherwise (or without an estimate yet) the temperature.
+                    if menuBarShowsTimeToTarget, let minutes = drinkTracker.minutesToTarget {
+                        Text("~\(minutes) min")
+                    } else {
+                        Text(getFormattedTemperature(emberMug.currentTemp, unit: emberMug.temperatureUnit))
+                    }
                 } else if (bluetoothManager.state == .connected && emberMug.liquidState == .empty && emberMug.batteryLevel != 100 && emberMug.isCharging) {
                     Text(getFormattedBatteryLevel(emberMug.batteryLevel))
                 }
