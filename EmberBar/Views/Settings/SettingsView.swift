@@ -187,6 +187,7 @@ struct MugSettingsView: View {
                         Image(systemName: "lock.fill").foregroundStyle(.orange)
                     }
                     .padding(.vertical, 4)
+
                 }
             }
 
@@ -273,7 +274,8 @@ struct MugSettingsView: View {
                         LabeledContent("Hardware", value: String(firmware.hardware))
                     }
                     if let level = emberMug.liquidLevel {
-                        LabeledContent("Level sensor", value: "\(level) / \(Int(EmberMug.fullLiquidLevel))")
+                        // Raw reading, plus how full EmberBar takes that to be (13 and up = full).
+                        LabeledContent("Level sensor", value: "\(level) · \(Int((min(Double(level) / EmberMug.fullLiquidLevel, 1) * 100).rounded()))%")
                     }
                 } header: {
                     Text("Details")

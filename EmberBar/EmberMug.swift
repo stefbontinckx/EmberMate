@@ -400,7 +400,7 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
         case .udsk:
             // 20 zero bytes: the mug was never set up (again) in the Ember app.
             let isSet = data.contains { $0 != 0 }
-            log.notice("Mug setup key is \(isSet ? "set" : "not set", privacy: .public)")
+            log.notice("Mug setup key is \(isSet ? "set" : "not set", privacy: .public) (\(data.count, privacy: .public) bytes)")
             if !isSet { canWrite = false }
         }
     }
