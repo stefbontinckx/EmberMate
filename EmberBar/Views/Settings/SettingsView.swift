@@ -283,12 +283,6 @@ struct PresetsSettingsView: View {
         Form {
             Section {
                 Toggle("Show presets in the menu bar window", isOn: $showPresets)
-            } footer: {
-                Text("When off, the window shows how much is in the mug and what you drank today instead.")
-                    .foregroundStyle(.secondary)
-            }
-
-            Section {
                 ForEach($appState.presets, id: \.id) { preset in
                     PresetEntry(
                         preset: preset,
@@ -306,8 +300,11 @@ struct PresetsSettingsView: View {
             } header: {
                 Text("Temperature presets")
             } footer: {
-                Text("Tip: hold a preset in the menu bar window to save the current target to it.")
-                    .foregroundStyle(.secondary)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("When off, the window shows how much is in the mug and what you drank today instead.")
+                    Text("Tip: hold a preset in the menu bar window to save the current target to it.")
+                }
+                .foregroundStyle(.secondary)
             }
 
             Section {
