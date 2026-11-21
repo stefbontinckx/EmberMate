@@ -111,7 +111,7 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
 
     private static let temperatureUnitKey = "temperatureUnit"
     private static let lastTargetKey = "lastTargetTemp"
-    static let capacityOverrideKey = "mugCapacityOverride"
+    static let modelOverrideKey = "mugModelOverride"
 
     @Published var batteryLevel: Int = 0 // 5 - 100
     @Published var isCharging: Bool = false
@@ -162,11 +162,13 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
         return (Self.minTemp...Self.maxTemp).contains(stored) ? stored : 55
     }
 
-    // Capacity in ml: the user's choice in Settings, otherwise what the detected model holds.
+    // The model picked in Settings, otherwise the one read from the mug.
+    var effectiveModel: MugModel? {
+        UserDefaults.standard.string(forKey: Self.modelOverrideKey).flatMap(MugModel.init(rawValue:)) ?? model
+    }
+
     var capacityML: Int? {
-        let override = UserDefaults.standard.integer(forKey: Self.capacityOverrideKey)
-        if override > 0 { return override }
-        return model?.capacityML
+        effectiveModel?.capacityML
     }
 
     // How full the mug is (0...1), from the coarse level sensor.

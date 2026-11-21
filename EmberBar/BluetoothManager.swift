@@ -7,6 +7,9 @@
 
 import CoreBluetooth
 import AppKit
+import os
+
+private let log = Logger(subsystem: "be.bontinckx.EmberBar", category: "bluetooth")
 
 enum ConnectionState {
     // there is a mug currently connected
@@ -40,6 +43,8 @@ class BluetoothManager: NSObject, ObservableObject {
     private var peripheralIdentifier: UUID?
     private var recentlySeen: Set<CBPeripheral> = []
     private var staleTimer: Timer?
+    // While set, the reconnect waits so the scan can catch the mug's advertisement.
+    @Published private(set) var isProbingModel = false
     private var heartbeatTimer: Timer?
 
     init(emberMug: EmberMug) {
@@ -145,6 +150,26 @@ class BluetoothManager: NSObject, ObservableObject {
 
     // Cancel the stale link. That triggers `didDisconnectPeripheral`, which
     // re-issues the connection because `state == .reConnecting`.
+    // The model is only in the advertisement, which a mug sends in pairing mode
+    // (button held until the light blinks blue), not while connected. Drop the
+    // link and listen for up to 20 seconds, then reconnect.
+    func detectModel() {
+        guard state == .connected, !isProbingModel else { return }
+        log.notice("Listening for the mug's advertisement to detect its model")
+        isProbingModel = true
+        forceReconnect()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 20) { [weak self] in
+            self?.finishModelProbe()
+        }
+    }
+
+    private func finishModelProbe() {
+        guard isProbingModel else { return }
+        isProbingModel = false
+        guard state == .reConnecting, let peripheral = emberMug.peripheral else { return }
+        centralManager?.connect(peripheral, options: nil)
+    }
+
     private func forceReconnect() {
         guard let peripheral = emberMug.peripheral else { return }
         stopHeartbeat()
@@ -154,7 +179,7 @@ class BluetoothManager: NSObject, ObservableObject {
         // Safety net: if CoreBluetooth doesn't report a disconnect for the
         // zombie link, kick off a connection attempt anyway.
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            guard let self, self.state == .reConnecting else { return }
+            guard let self, self.state == .reConnecting, !self.isProbingModel else { return }
             self.centralManager?.connect(peripheral, options: nil)
         }
     }
@@ -199,9 +224,14 @@ extension BluetoothManager: CBCentralManagerDelegate {
         rssi RSSI: NSNumber
     ) {
         recentlySeen.insert(peripheral)
-        if let data = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data,
-           let model = MugModel(manufacturerData: data) {
-            emberMug.rememberModel(model, for: peripheral.identifier)
+        if (isProbingModel || MugModel.remembered(for: peripheral.identifier) == nil),
+           let data = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data {
+            let model = MugModel(manufacturerData: data)
+            log.notice("Advertisement \(data.map { String(format: "%02x", $0) }.joined(), privacy: .public) -> \(model?.rawValue ?? "unknown", privacy: .public)")
+            if let model {
+                emberMug.rememberModel(model, for: peripheral.identifier)
+                finishModelProbe()
+            }
         }
         if !peripherals.contains(peripheral) {
             self.peripherals.append(peripheral)
@@ -237,7 +267,9 @@ extension BluetoothManager: CBCentralManagerDelegate {
         // correctly do NOT reconnect in that case.
         if state == .connected || state == .reConnecting {
             state = .reConnecting
-            central.connect(emberMug.peripheral ?? peripheral, options: nil)
+            if !isProbingModel {
+                central.connect(emberMug.peripheral ?? peripheral, options: nil)
+            }
         }
 
         startScanning()

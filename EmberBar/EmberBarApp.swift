@@ -41,10 +41,9 @@ struct EmberBarApp: App {
                 .environmentObject(bluetoothManager)
                 .environmentObject(autoOff)
                 .environmentObject(drinkTracker)
-                .environmentObject(drinkTracker)
         } label: {
             HStack {
-                Image(systemName: getIconName())
+                menuBarImage
                 
                 if (appState.countdown != nil) {
                     Text(formatCountdown(appState.countdown!))
@@ -68,29 +67,23 @@ struct EmberBarApp: App {
         }
     }
 
-    func getIconName() -> String {
-        if (appState.countdown != nil) {
-            return "clock.fill"
+    // Clock while a timer runs, a check once the drink is at temperature,
+    // otherwise a mug that fills with the liquid level.
+    @ViewBuilder
+    private var menuBarImage: some View {
+        let connected = bluetoothManager.state == .connected
+        if appState.countdown != nil {
+            Image(systemName: "clock.fill")
+        } else if connected && emberMug.liquidState == .stableTemperature && !emberMug.isHeatingOff {
+            Image(systemName: "checkmark.circle.fill")
+        } else if !connected || emberMug.liquidState == .empty {
+            Image(nsImage: MenuBarIcon.mug(fill: 0))
+        } else {
+            // Unknown level: show the mug as full.
+            Image(nsImage: MenuBarIcon.mug(fill: emberMug.estimatedFillFraction ?? 1))
         }
-        
-        if (bluetoothManager.state == .reConnecting || bluetoothManager.state == .disconnected) {
-            // "empty" state for a reconnecting mug
-            // ideally this would be a mug with a slash in it
-            // but I dont want to create a custom icon
-            return "mug"
-        }
-
-        if (emberMug.liquidState == .empty) {
-            return "mug"
-        }
-
-        if let preset = appState.selectedPreset {
-            return preset.icon
-        }
-
-        return "mug.fill"
     }
-    
+
     func formatCountdown(_ countdown: Int) -> String {
         let roundedMinutes = countdown.dividedReportingOverflow(by: 60)
         let minutes = roundedMinutes.partialValue

@@ -14,6 +14,7 @@ struct MugControlView: View {
     @EnvironmentObject private var autoOff: AutoOffController
     @EnvironmentObject private var drinkTracker: DrinkTracker
     @AppStorage(DrinkTracker.trackingKey) private var trackDrinking = true
+    @AppStorage("showPresets") private var showPresets = false
 
     @Environment(\.openSettings_backport) private var openSettings
     @Environment(\.dismiss) private var dismiss
@@ -28,14 +29,25 @@ struct MugControlView: View {
         VStack(spacing: 14) {
             header
             temperatureControl
-            statusChips
-            presets
+
+            if showPresets {
+                statusChips
+                presets
+            } else {
+                infoTiles
+                if let deadline = autoOff.deadline {
+                    chip(systemImage: "timer") {
+                        Text("Off at \(deadline, style: .time)")
+                    }
+                    .help("Heating stops automatically")
+                }
+            }
 
             if !appState.timers.isEmpty {
                 TimerView()
             }
 
-            if trackDrinking && drinkTracker.cupsToday > 0 {
+            if showPresets && trackDrinking && drinkTracker.cupsToday > 0 {
                 todaySummary
             }
         }
@@ -220,6 +232,76 @@ struct MugControlView: View {
         .padding(.horizontal, 10)
         .padding(.vertical, 5)
         .background(Capsule().fill(Color.black.opacity(0.22)))
+    }
+
+    // MARK: - Info tiles
+
+    private var infoTiles: some View {
+        LazyVGrid(columns: [GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)], spacing: 8) {
+            tile("In the mug", systemImage: "drop.fill") {
+                if let volume = emberMug.estimatedVolumeML {
+                    Text("≈ \(volume) ml")
+                } else if let fraction = emberMug.estimatedFillFraction {
+                    Text(verbatim: "≈ \(Int((fraction * 10).rounded()) * 10)%")
+                } else if isEmpty {
+                    Text("Empty")
+                } else {
+                    Text(verbatim: "–")
+                }
+            }
+            .help("Estimate based on the mug's level sensor")
+
+            tile("Ready", systemImage: readySymbol) {
+                if emberMug.isHeatingOff {
+                    Text("Heating off")
+                } else if emberMug.liquidState == .stableTemperature {
+                    Text("Now")
+                } else if let minutes = drinkTracker.minutesToTarget {
+                    Text("In \(minutes) min")
+                } else {
+                    Text(verbatim: "–")
+                }
+            }
+            .help("Estimate based on how fast the temperature is changing")
+
+            if trackDrinking {
+                tile("Today", systemImage: "cup.and.saucer.fill") {
+                    Text("\(drinkTracker.cupsToday) cups")
+                }
+                tile("Drunk", systemImage: "chart.bar.fill") {
+                    if drinkTracker.millilitersToday > 0 {
+                        Text("≈ \(drinkTracker.millilitersToday) ml")
+                    } else {
+                        Text(verbatim: "–")
+                    }
+                }
+            }
+        }
+    }
+
+    private var readySymbol: String {
+        if emberMug.liquidState == .stableTemperature { return "checkmark.circle.fill" }
+        return emberMug.liquidState == .cooling ? "snowflake" : "flame.fill"
+    }
+
+    private func tile<Value: View>(
+        _ title: LocalizedStringKey,
+        systemImage: String,
+        @ViewBuilder value: () -> Value
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Label(title, systemImage: systemImage)
+                .font(.caption)
+                .foregroundStyle(.white.opacity(0.75))
+            value()
+                .font(.system(.title3, design: .rounded).weight(.semibold).monospacedDigit())
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 10)
+        .card()
     }
 
     // MARK: - Presets

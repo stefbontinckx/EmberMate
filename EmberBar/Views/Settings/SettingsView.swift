@@ -125,7 +125,7 @@ struct MugSettingsView: View {
     @EnvironmentObject private var bluetoothManager: BluetoothManager
 
     @State private var nameDraft = ""
-    @AppStorage(EmberMug.capacityOverrideKey) private var capacityOverride = 0
+    @AppStorage(EmberMug.modelOverrideKey) private var modelOverride = ""
 
     private var isConnected: Bool { bluetoothManager.state == .connected }
 
@@ -208,26 +208,41 @@ struct MugSettingsView: View {
             }
 
             Section {
-                Picker("Capacity", selection: $capacityOverride) {
+                Picker("Model", selection: $modelOverride) {
                     if let model = emberMug.model {
-                        Text("Automatic (\(model.capacityML) ml)").tag(0)
+                        Text("Detected: \(model.displayName)").tag("")
                     } else {
-                        Text("Automatic").tag(0)
+                        Text("Not detected").tag("")
                     }
-                    ForEach([178, 295, 355, 414, 473], id: \.self) { ml in
-                        Text("\(ml) ml").tag(ml)
+                    ForEach(MugModel.allCases, id: \.rawValue) { model in
+                        Text(verbatim: model.displayName).tag(model.rawValue)
+                    }
+                }
+
+                if (isConnected || bluetoothManager.isProbingModel) && emberMug.model == nil {
+                    LabeledContent {
+                        if bluetoothManager.isProbingModel {
+                            HStack(spacing: 6) {
+                                ProgressView().controlSize(.small)
+                                Text("Listening…")
+                            }
+                        } else {
+                            Button("Detect") { bluetoothManager.detectModel() }
+                        }
+                    } label: {
+                        Text("Detect automatically")
+                        Text("Hold the button on the bottom of the mug until the light blinks blue, then click Detect.")
                     }
                 }
             } header: {
-                Text("Volume estimate")
+                Text("Model")
             } footer: {
-                Text("The mug only senses roughly how full it is, so the volume shown is an estimate.")
+                Text("The model sets the capacity used for volume estimates. The mug only senses roughly how full it is, so amounts are estimates.")
                     .foregroundStyle(.secondary)
             }
 
             if isConnected {
                 Section {
-                    LabeledContent("Model", value: emberMug.model?.displayName ?? String(localized: "Unknown"))
                     if let firmware = emberMug.firmware {
                         LabeledContent("Firmware", value: String(firmware.firmware))
                         LabeledContent("Hardware", value: String(firmware.hardware))
@@ -261,9 +276,17 @@ struct MugSettingsView: View {
 
 struct PresetsSettingsView: View {
     @EnvironmentObject private var appState: AppState
+    @AppStorage("showPresets") private var showPresets = false
 
     var body: some View {
         Form {
+            Section {
+                Toggle("Show presets in the menu bar window", isOn: $showPresets)
+            } footer: {
+                Text("When off, the window shows how much is in the mug and what you drank today instead.")
+                    .foregroundStyle(.secondary)
+            }
+
             Section {
                 ForEach($appState.presets, id: \.id) { preset in
                     PresetEntry(
@@ -349,7 +372,7 @@ struct AboutSettingsView: View {
         Form {
             Section {
                 VStack(spacing: 8) {
-                    Image(nsImage: NSApp.applicationIconImage)
+                    Image(nsImage: NSImage(named: "AppIcon") ?? NSApp.applicationIconImage)
                         .resizable()
                         .frame(width: 72, height: 72)
 

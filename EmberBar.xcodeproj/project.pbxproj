@@ -24,6 +24,7 @@
 		EB0000000000000000000013 /* AutoOffController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0000000000000000000014 /* AutoOffController.swift */; };
 		EB0000000000000000000015 /* LEDColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0000000000000000000016 /* LEDColorPicker.swift */; };
 		EB0000000000000000000017 /* DrinkTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0000000000000000000018 /* DrinkTracker.swift */; };
+		EB0000000000000000000019 /* MenuBarIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB000000000000000000001A /* MenuBarIcon.swift */; };
 		1A86E97C2B32A85A00ED0696 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86E97B2B32A85A00ED0696 /* IconButton.swift */; };
 		1AA35E2C2B22CC0E00B144C0 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA35E2B2B22CC0E00B144C0 /* Utils.swift */; };
 		1AD754482B1ED69E00E54851 /* ConnectMugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD754472B1ED69E00E54851 /* ConnectMugView.swift */; };
@@ -54,6 +55,7 @@
 		EB0000000000000000000014 /* AutoOffController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoOffController.swift; sourceTree = "<group>"; };
 		EB0000000000000000000016 /* LEDColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LEDColorPicker.swift; sourceTree = "<group>"; };
 		EB0000000000000000000018 /* DrinkTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkTracker.swift; sourceTree = "<group>"; };
+		EB000000000000000000001A /* MenuBarIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarIcon.swift; sourceTree = "<group>"; };
 		1A86E97B2B32A85A00ED0696 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		1AA35E2B2B22CC0E00B144C0 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		1AD754472B1ED69E00E54851 /* ConnectMugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectMugView.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				1A42A7422B2697CF00233E50 /* TemperaturePresetButton.swift */,
 				1A42A7442B269A3900233E50 /* TimerView.swift */,
 				EB0000000000000000000002 /* Theme.swift */,
+				EB000000000000000000001A /* MenuBarIcon.swift */,
 				1A86E97B2B32A85A00ED0696 /* IconButton.swift */,
 			);
 			path = Components;
@@ -256,6 +259,7 @@
 				EB0000000000000000000013 /* AutoOffController.swift in Sources */,
 				EB0000000000000000000015 /* LEDColorPicker.swift in Sources */,
 				EB0000000000000000000017 /* DrinkTracker.swift in Sources */,
+				EB0000000000000000000019 /* MenuBarIcon.swift in Sources */,
 				1A86E97C2B32A85A00ED0696 /* IconButton.swift in Sources */,
 				1A42A7472B269DC400233E50 /* AppState.swift in Sources */,
 				1AF9BE722B2E2D35002C930D /* NotificationAdapter.swift in Sources */,
@@ -400,7 +404,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"EmberBar/Preview Content\"";
 				DEVELOPMENT_TEAM = KCV7YY33H3;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -417,7 +421,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = be.bontinckx.EmberBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -439,7 +443,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"EmberBar/Preview Content\"";
 				DEVELOPMENT_TEAM = KCV7YY33H3;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -456,7 +460,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = be.bontinckx.EmberBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
