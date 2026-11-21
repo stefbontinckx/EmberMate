@@ -43,9 +43,9 @@ final class DrinkTracker: ObservableObject {
             .sink { [weak self] _ in self?.updateEstimate() }
             .store(in: &cancellables)
 
-        Publishers.CombineLatest(emberMug.$liquidState, emberMug.$liquidLevel)
+        emberMug.$liquidState
             .receive(on: RunLoop.main)
-            .sink { [weak self] state, _ in self?.liquidChanged(state) }
+            .sink { [weak self] state in self?.liquidChanged(state) }
             .store(in: &cancellables)
 
         // Roll the day over even when nothing else happens.

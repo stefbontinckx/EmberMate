@@ -28,16 +28,6 @@ enum MugModel: String, CaseIterable {
         }
     }
 
-    var capacityML: Int {
-        switch self {
-        case .cup6: 178
-        case .mug1Small, .mug2Small: 295
-        case .travelMug: 355
-        case .mug1Large, .mug2Large: 414
-        case .tumbler: 473
-        }
-    }
-
     // Bluetooth SIG company ID of Ember, and the ID used on test units.
     private static let companyIDs: [[UInt8]] = [[0xC1, 0x03], [0xFF, 0xFF]]
 
