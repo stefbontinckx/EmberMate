@@ -79,7 +79,7 @@ final class AutoOffController: ObservableObject {
 
     private func update() {
         let minutes = appState.autoOffMinutes
-        guard minutes > 0, let filledAt, !didTurnOff, !emberMug.isHeatingOff else {
+        guard minutes > 0, let filledAt, !didTurnOff, !emberMug.isHeatingOff, emberMug.canWrite != false else {
             if deadline != nil { deadline = nil }
             return
         }

@@ -80,6 +80,7 @@ private enum MugCharacteristic: UInt16, CaseIterable {
     case battery = 0x0007
     case liquidState = 0x0008
     case firmware = 0x000C
+    case udsk = 0x000F
     case pushEvents = 0x0012
     case color = 0x0014
 
@@ -134,6 +135,9 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
     @Published private(set) var name: String?
     @Published private(set) var firmware: FirmwareInfo?
     @Published private(set) var model: MugModel?
+    // False once the mug refused a write. A mug that was reset and not set up
+    // again in the Ember phone app rejects every change ("Writing is not permitted").
+    @Published private(set) var canWrite: Bool?
 
     var peripheral: CBPeripheral?
 
@@ -223,6 +227,7 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
         self.peripheral = peripheral
         peripheral.delegate = self
         characteristics = [:]
+        canWrite = nil
         model = MugModel.remembered(for: peripheral.identifier)
     }
 
@@ -341,7 +346,7 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
         switch kind {
         case .targetTemp:
             let reported = Double(data.extractUInt16()) * 0.01
-            if let preferred = preferredTarget, reported >= 1, abs(reported - preferred) > 0.05 {
+            if canWrite != false, let preferred = preferredTarget, reported >= 1, abs(reported - preferred) > 0.05 {
                 // Heating is on but at another target than the user chose: put theirs back.
                 log.notice("Mug reported target \(reported, privacy: .public), restoring \(preferred, privacy: .public)")
                 targetTemp = preferred
@@ -392,6 +397,11 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
             )
         case .pushEvents:
             handle(PushEvent(rawValue: data[0]))
+        case .udsk:
+            // 20 zero bytes: the mug was never set up (again) in the Ember app.
+            let isSet = data.contains { $0 != 0 }
+            log.notice("Mug setup key is \(isSet ? "set" : "not set", privacy: .public)")
+            if !isSet { canWrite = false }
         }
     }
 
@@ -412,6 +422,21 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
 
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         markAlive()
+        let kind = MugCharacteristic(uuid: characteristic.uuid)
+        if let error {
+            log.error("Write to \(String(describing: kind), privacy: .public) failed: \(error.localizedDescription, privacy: .public)")
+            if (error as? CBATTError)?.code == .writeNotPermitted {
+                canWrite = false
+            }
+        } else {
+            canWrite = true
+        }
+        // Read back so the window shows what the mug really uses, also after a refusal.
+        switch kind {
+        case .targetTemp: read(.targetTemp)
+        case .color: read(.color)
+        default: break
+        }
         // Read the name back so we show what the mug actually stored.
         if MugCharacteristic(uuid: characteristic.uuid) == .name {
             read(.name)

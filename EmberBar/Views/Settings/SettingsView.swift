@@ -173,6 +173,23 @@ struct MugSettingsView: View {
                 }
             }
 
+            if isConnected && emberMug.canWrite == false {
+                Section {
+                    Label {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("This mug doesn't accept changes")
+                                .font(.headline)
+                            Text("A mug that was reset only accepts changes after it has been set up again in the Ember app. Until then EmberBar can show everything but can't change the temperature, unit, name or light.")
+                            Text("1. Open the Ember app on your phone and add the mug.\n2. Once it shows up there, turn off Bluetooth on your phone (or forget the mug there) so it doesn't take over the connection.\n3. Disconnect here and connect the mug again.")
+                                .foregroundStyle(.secondary)
+                        }
+                    } icon: {
+                        Image(systemName: "lock.fill").foregroundStyle(.orange)
+                    }
+                    .padding(.vertical, 4)
+                }
+            }
+
             Section {
                 Picker("Temperature unit", selection: Binding(
                     get: { emberMug.temperatureUnit },

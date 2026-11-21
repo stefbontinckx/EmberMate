@@ -29,11 +29,16 @@ struct MugControlView: View {
     var body: some View {
         VStack(spacing: 14) {
             header
+            if emberMug.canWrite == false {
+                lockedBanner
+            }
             temperatureControl
+                .disabled(emberMug.canWrite == false)
 
             if showPresets {
                 statusChips
                 presets
+                    .disabled(emberMug.canWrite == false)
             } else {
                 infoTiles
                 if let deadline = autoOff.deadline {
@@ -103,6 +108,7 @@ struct MugControlView: View {
                     .background(Circle().fill(emberMug.isHeatingOff ? Color.black.opacity(0.22) : Color.white.opacity(0.28)))
             }
             .buttonStyle(.plain)
+            .disabled(emberMug.canWrite == false)
             .help(emberMug.isHeatingOff ? "Turn heating on" : "Turn heating off")
 
             Button {
@@ -169,6 +175,35 @@ struct MugControlView: View {
                 .help("Raise target temperature")
         }
         .padding(.horizontal, 4)
+    }
+
+    // MARK: - Locked mug
+
+    private var lockedBanner: some View {
+        Button {
+            appState.selectedSettingsTab = "mug"
+            dismiss()
+            openSettings()
+        } label: {
+            HStack(alignment: .top, spacing: 10) {
+                Image(systemName: "lock.fill")
+                    .font(.system(size: 15))
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("The mug doesn't accept changes")
+                        .font(.subheadline.weight(.semibold))
+                    Text("Set it up once in the Ember app on your phone. Click for details.")
+                        .font(.caption)
+                        .foregroundStyle(.white.opacity(0.8))
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 0)
+            }
+            .padding(12)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .card()
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Status

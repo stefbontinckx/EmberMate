@@ -476,6 +476,82 @@
         }
       }
     },
+    "1. Open the Ember app on your phone and add the mug.\n2. Once it shows up there, turn off Bluetooth on your phone (or forget the mug there) so it doesn't take over the connection.\n3. Disconnect here and connect the mug again.": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Open de Ember-app op je telefoon en voeg de mok toe.\n2. Zodra hij daar verschijnt, zet je Bluetooth op je telefoon uit (of vergeet je de mok daar), zodat die de verbinding niet overneemt.\n3. Ontkoppel de mok hier en verbind hem opnieuw."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Ouvrez l'app Ember sur votre téléphone et ajoutez la tasse.\n2. Une fois qu'elle y apparaît, désactivez le Bluetooth du téléphone (ou oubliez la tasse) pour qu'il ne reprenne pas la connexion.\n3. Déconnectez la tasse ici et reconnectez-la."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Öffne die Ember-App auf deinem Telefon und füge den Becher hinzu.\n2. Sobald er dort erscheint, schalte Bluetooth am Telefon aus (oder entferne den Becher dort), damit es die Verbindung nicht übernimmt.\n3. Trenne den Becher hier und verbinde ihn erneut."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Abre la app de Ember en tu teléfono y añade la taza.\n2. Cuando aparezca, desactiva el Bluetooth del teléfono (u olvida la taza allí) para que no se quede con la conexión.\n3. Desconecta la taza aquí y vuelve a conectarla."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Apri l'app Ember sul telefono e aggiungi la tazza.\n2. Quando compare, disattiva il Bluetooth del telefono (o dimentica la tazza) perché non prenda la connessione.\n3. Disconnetti la tazza qui e ricollegala."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Abra a app Ember no telemóvel e adicione a caneca.\n2. Quando aparecer, desligue o Bluetooth do telemóvel (ou esqueça a caneca) para que não fique com a ligação.\n3. Desligue a caneca aqui e volte a ligá-la."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Otwórz aplikację Ember na telefonie i dodaj kubek.\n2. Gdy się pojawi, wyłącz Bluetooth w telefonie (lub zapomnij tam kubek), aby nie przejął połączenia.\n3. Rozłącz kubek tutaj i połącz go ponownie."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Öppna Ember-appen på telefonen och lägg till muggen.\n2. När den syns där stänger du av Bluetooth på telefonen (eller glömmer muggen) så att den inte tar över anslutningen.\n3. Koppla från muggen här och anslut den igen."
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Åbn Ember-appen på din telefon, og tilføj kruset.\n2. Når det vises der, slår du Bluetooth fra på telefonen (eller glemmer kruset), så den ikke overtager forbindelsen.\n3. Afbryd kruset her, og forbind det igen."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Åpne Ember-appen på telefonen og legg til kruset.\n2. Når det vises der, slår du av Bluetooth på telefonen (eller glemmer kruset) så den ikke tar over tilkoblingen.\n3. Koble fra kruset her og koble det til igjen."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Avaa Ember-sovellus puhelimessa ja lisää muki.\n2. Kun se näkyy siellä, laita puhelimen Bluetooth pois (tai unohda muki), jotta puhelin ei ota yhteyttä haltuunsa.\n3. Katkaise mukin yhteys täällä ja yhdistä se uudelleen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. スマートフォンのEmberアプリでマグを追加します。\n2. 表示されたら、接続を奪われないようスマートフォンのBluetoothをオフにします（またはマグの登録を解除）。\n3. ここでマグの接続を解除し、もう一度接続します。"
+          }
+        }
+      }
+    },
     "A cup counts when the mug goes from filled to empty. Amounts are estimates and stay on this Mac.": {
       "localizations": {
         "nl": {
@@ -548,6 +624,82 @@
           "stringUnit": {
             "state": "translated",
             "value": "マグが満杯から空になると1杯と数えます。量は推定値で、このMacにのみ保存されます。"
+          }
+        }
+      }
+    },
+    "A mug that was reset only accepts changes after it has been set up again in the Ember app. Until then EmberBar can show everything but can't change the temperature, unit, name or light.": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Een mok die gereset is, aanvaardt pas wijzigingen nadat hij opnieuw is ingesteld in de Ember-app. Tot dan kan EmberBar alles tonen, maar niet de temperatuur, eenheid, naam of het lampje aanpassen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une tasse réinitialisée n'accepte de modifications qu'après avoir été reconfigurée dans l'app Ember. D'ici là, EmberBar peut tout afficher mais ne peut pas changer la température, l'unité, le nom ou la lumière."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein zurückgesetzter Becher akzeptiert erst wieder Änderungen, nachdem er in der Ember-App neu eingerichtet wurde. Bis dahin kann EmberBar alles anzeigen, aber Temperatur, Einheit, Name und Licht nicht ändern."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Una taza restablecida solo acepta cambios tras configurarla de nuevo en la app de Ember. Hasta entonces EmberBar lo muestra todo, pero no puede cambiar la temperatura, la unidad, el nombre ni la luz."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Una tazza ripristinata accetta modifiche solo dopo essere stata configurata di nuovo nell'app Ember. Fino ad allora EmberBar mostra tutto ma non può cambiare temperatura, unità, nome o luce."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uma caneca reposta só aceita alterações depois de voltar a ser configurada na app Ember. Até lá, o EmberBar mostra tudo, mas não altera a temperatura, a unidade, o nome nem a luz."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zresetowany kubek przyjmuje zmiany dopiero po ponownej konfiguracji w aplikacji Ember. Do tego czasu EmberBar pokazuje wszystko, ale nie zmieni temperatury, jednostki, nazwy ani światła."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En återställd mugg tar bara emot ändringar efter att den ställts in igen i Ember-appen. Tills dess kan EmberBar visa allt men inte ändra temperatur, enhet, namn eller ljus."
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Et nulstillet krus accepterer først ændringer, når det er sat op igen i Ember-appen. Indtil da kan EmberBar vise alt, men ikke ændre temperatur, enhed, navn eller lys."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Et tilbakestilt krus godtar først endringer når det er satt opp på nytt i Ember-appen. Inntil da kan EmberBar vise alt, men ikke endre temperatur, enhet, navn eller lys."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nollattu muki hyväksyy muutoksia vasta, kun se on otettu uudelleen käyttöön Ember-sovelluksessa. Siihen asti EmberBar näyttää kaiken, mutta ei voi muuttaa lämpötilaa, yksikköä, nimeä tai valoa."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "リセットしたマグは、Emberアプリで再設定するまで変更を受け付けません。それまでEmberBarは表示はできますが、温度・単位・名前・ライトは変更できません。"
           }
         }
       }
@@ -6492,6 +6644,82 @@
         }
       }
     },
+    "Set it up once in the Ember app on your phone. Click for details.": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stel hem één keer in via de Ember-app op je telefoon. Klik voor uitleg."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configurez-la une fois dans l'app Ember sur votre téléphone. Cliquez pour en savoir plus."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Richte ihn einmal in der Ember-App auf deinem Telefon ein. Klicke für Details."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configúrala una vez en la app de Ember del teléfono. Haz clic para ver más."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configurala una volta nell'app Ember sul telefono. Fai clic per i dettagli."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure-a uma vez na app Ember do telemóvel. Clique para saber mais."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skonfiguruj go raz w aplikacji Ember na telefonie. Kliknij, aby dowiedzieć się więcej."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ställ in den en gång i Ember-appen på telefonen. Klicka för detaljer."
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sæt det op én gang i Ember-appen på telefonen. Klik for detaljer."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sett det opp én gang i Ember-appen på telefonen. Klikk for detaljer."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ota se kerran käyttöön puhelimen Ember-sovelluksessa. Napsauta lisätietoja varten."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スマートフォンのEmberアプリで一度設定してください。クリックで詳細。"
+          }
+        }
+      }
+    },
     "Settings": {
       "localizations": {
         "nl": {
@@ -7400,6 +7628,158 @@
           "stringUnit": {
             "state": "translated",
             "value": "モデルによって推定に使う容量が決まります。マグは液量をおおまかにしか検知できないため、量は推定値です。"
+          }
+        }
+      }
+    },
+    "The mug doesn't accept changes": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De mok aanvaardt geen wijzigingen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La tasse n'accepte pas les modifications"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Becher akzeptiert keine Änderungen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La taza no acepta cambios"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La tazza non accetta modifiche"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A caneca não aceita alterações"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kubek nie przyjmuje zmian"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muggen tar inte emot ändringar"
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kruset accepterer ikke ændringer"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kruset godtar ikke endringer"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muki ei hyväksy muutoksia"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "マグが変更を受け付けません"
+          }
+        }
+      }
+    },
+    "This mug doesn't accept changes": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deze mok aanvaardt geen wijzigingen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette tasse n'accepte pas les modifications"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieser Becher akzeptiert keine Änderungen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta taza no acepta cambios"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questa tazza non accetta modifiche"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta caneca não aceita alterações"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ten kubek nie przyjmuje zmian"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Den här muggen tar inte emot ändringar"
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dette krus accepterer ikke ændringer"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dette kruset godtar ikke endringer"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tämä muki ei hyväksy muutoksia"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "このマグは変更を受け付けません"
           }
         }
       }
