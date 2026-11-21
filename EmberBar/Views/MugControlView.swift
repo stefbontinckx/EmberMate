@@ -175,10 +175,8 @@ struct MugControlView: View {
 
     @ViewBuilder
     private var statusChips: some View {
-        let volume = emberMug.estimatedVolumeML
-        let fraction = emberMug.estimatedFillFraction
         let minutes = drinkTracker.minutesToTarget
-        if fraction != nil || autoOff.deadline != nil || minutes != nil {
+        if drinkTracker.pouredAt != nil || autoOff.deadline != nil || minutes != nil {
             HStack(spacing: 8) {
                 if let minutes {
                     chip(systemImage: emberMug.liquidState == .cooling ? "snowflake" : "flame.fill") {
@@ -186,16 +184,10 @@ struct MugControlView: View {
                     }
                     .help("Estimate based on how fast the temperature is changing")
                 }
-                if let volume {
+                if let pouredAt = drinkTracker.pouredAt {
                     chip(systemImage: "drop.fill") {
-                        Text("About \(volume) ml")
+                        Text("Poured at \(pouredAt, style: .time)")
                     }
-                    .help("Estimate based on the mug's level sensor")
-                } else if let fraction {
-                    chip(systemImage: "drop.fill") {
-                        Text("About \(Int((fraction * 10).rounded()) * 10)% full")
-                    }
-                    .help("Pick your mug's capacity in Settings to see millilitres")
                 }
                 if let deadline = autoOff.deadline {
                     chip(systemImage: "timer") {
@@ -239,18 +231,19 @@ struct MugControlView: View {
 
     private var infoTiles: some View {
         LazyVGrid(columns: [GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)], spacing: 8) {
-            tile("In the mug", systemImage: "drop.fill") {
-                if let volume = emberMug.estimatedVolumeML {
-                    Text("≈ \(volume) ml")
-                } else if let fraction = emberMug.estimatedFillFraction {
-                    Text(verbatim: "≈ \(Int((fraction * 10).rounded()) * 10)%")
+            tile("Poured", systemImage: "drop.fill") {
+                if let pouredAt = drinkTracker.pouredAt {
+                    // Refresh the "x min ago" part even when nothing else changes.
+                    TimelineView(.periodic(from: .now, by: 30)) { context in
+                        let minutes = max(0, Int(context.date.timeIntervalSince(pouredAt) / 60))
+                        Text(pouredAt, style: .time) + Text(verbatim: " · ") + Text("\(minutes) min")
+                    }
                 } else if isEmpty {
                     Text("Empty")
                 } else {
                     Text(verbatim: "–")
                 }
             }
-            .help("Estimate based on the mug's level sensor")
 
             tile("Ready", systemImage: readySymbol) {
                 if emberMug.isHeatingOff {

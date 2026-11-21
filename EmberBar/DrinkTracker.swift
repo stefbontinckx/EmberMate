@@ -16,6 +16,8 @@ final class DrinkTracker: ObservableObject {
     @Published private(set) var minutesToTarget: Int?
     @Published private(set) var cupsToday = 0
     @Published private(set) var millilitersToday = 0
+    // When the current drink was poured (nil while the mug is empty).
+    @Published private(set) var pouredAt: Date?
 
     private let emberMug: EmberMug
     private var samples: [(time: Date, temp: Double)] = []
@@ -134,6 +136,7 @@ final class DrinkTracker: ObservableObject {
                 self.finishCup()
                 self.isFilled = false
                 self.fillVolume = nil
+                self.pouredAt = nil
             }
             pendingFinish = work
             DispatchQueue.main.asyncAfter(deadline: .now() + 60, execute: work)
@@ -145,6 +148,7 @@ final class DrinkTracker: ObservableObject {
             if !isFilled {
                 // A new pour: readings from the empty mug say nothing about this drink.
                 samples.removeAll()
+                pouredAt = Date()
             }
             isFilled = true
             // The highest reading during a fill is the best guess of what was poured.

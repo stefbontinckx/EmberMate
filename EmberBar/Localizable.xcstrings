@@ -628,158 +628,6 @@
         }
       }
     },
-    "About %lld ml": {
-      "localizations": {
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ongeveer %lld ml"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Environ %lld ml"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Etwa %lld ml"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unos %lld ml"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Circa %lld ml"
-          }
-        },
-        "pt-PT": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cerca de %lld ml"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Około %lld ml"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cirka %lld ml"
-          }
-        },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cirka %lld ml"
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Omtrent %lld ml"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Noin %lld ml"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "約%lld ml"
-          }
-        }
-      }
-    },
-    "About %lld%% full": {
-      "localizations": {
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ongeveer %lld%% vol"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pleine à environ %lld %%"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Etwa %lld %% voll"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Llena al %lld %% aprox."
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Piena al %lld%% circa"
-          }
-        },
-        "pt-PT": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cerca de %lld%% cheia"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pełny w około %lld%%"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cirka %lld %% full"
-          }
-        },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cirka %lld %% fyldt"
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Omtrent %lld %% full"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Noin %lld %% täynnä"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "約%lld%%"
-          }
-        }
-      }
-    },
     "Add preset": {
       "localizations": {
         "nl": {
@@ -2838,82 +2686,6 @@
         }
       }
     },
-    "Estimate based on the mug's level sensor": {
-      "localizations": {
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Schatting op basis van de niveausensor van de mok"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estimation d'après le capteur de niveau de la tasse"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Schätzung anhand des Füllstandsensors"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estimación según el sensor de nivel de la taza"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stima basata sul sensore di livello della tazza"
-          }
-        },
-        "pt-PT": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estimativa com base no sensor de nível da caneca"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Szacunek na podstawie czujnika poziomu"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Uppskattning från muggens nivåsensor"
-          }
-        },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Skøn ud fra krusets niveausensor"
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Anslag basert på krusets nivåsensor"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Arvio mukin pinta-anturin perusteella"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "マグの液量センサーによる推定"
-          }
-        }
-      }
-    },
     "Fahrenheit (℉)": {
       "localizations": {
         "nl": {
@@ -3828,82 +3600,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "あと%lld分"
-          }
-        }
-      }
-    },
-    "In the mug": {
-      "localizations": {
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "In de mok"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dans la tasse"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Im Becher"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "En la taza"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nella tazza"
-          }
-        },
-        "pt-PT": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Na caneca"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "W kubku"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "I muggen"
-          }
-        },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "I kruset"
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "I kruset"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mukissa"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "マグの中"
           }
         }
       }
@@ -5884,78 +5580,154 @@
         }
       }
     },
-    "Pick your mug's capacity in Settings to see millilitres": {
+    "Poured": {
       "localizations": {
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kies de inhoud van je mok in Instellingen om milliliters te zien"
+            "value": "Ingeschonken"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choisissez la contenance de votre tasse dans les réglages pour voir les millilitres"
+            "value": "Versé"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wähle in den Einstellungen das Fassungsvermögen, um Milliliter zu sehen"
+            "value": "Eingeschenkt"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Elige la capacidad de tu taza en Ajustes para ver mililitros"
+            "value": "Servido"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Scegli la capacità della tazza nelle impostazioni per vedere i millilitri"
+            "value": "Versato"
           }
         },
         "pt-PT": {
           "stringUnit": {
             "state": "translated",
-            "value": "Escolha a capacidade da caneca nas definições para ver mililitros"
+            "value": "Servido"
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wybierz pojemność kubka w ustawieniach, aby widzieć mililitry"
+            "value": "Nalano"
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Välj muggens volym i inställningarna för att se milliliter"
+            "value": "Hälld"
           }
         },
         "da": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vælg krusets kapacitet i indstillingerne for at se milliliter"
+            "value": "Skænket"
           }
         },
         "nb": {
           "stringUnit": {
             "state": "translated",
-            "value": "Velg krusets kapasitet i innstillingene for å se milliliter"
+            "value": "Skjenket"
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Valitse mukin tilavuus asetuksista nähdäksesi millilitrat"
+            "value": "Kaadettu"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "設定でマグの容量を選ぶとミリリットルで表示されます"
+            "value": "注いだ時刻"
+          }
+        }
+      }
+    },
+    "Poured at %@": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ingeschonken om %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versé à %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eingeschenkt um %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Servido a las %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versato alle %@"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Servido às %@"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nalano o %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hälld kl. %@"
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skænket kl. %@"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skjenket kl. %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaadettu klo %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@に注ぎました"
           }
         }
       }
