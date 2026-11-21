@@ -216,6 +216,10 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
         colour = MugColour.remembered(for: peripheral.identifier)
     }
 
+#if DEBUG
+    func setPreviewColour(_ colour: MugColour?) { self.colour = colour }
+#endif
+
     func remember(model: MugModel?, colour: MugColour?, for identifier: UUID) {
         if let model { MugModel.remember(model, for: identifier) }
         if let colour { MugColour.remember(colour, for: identifier) }

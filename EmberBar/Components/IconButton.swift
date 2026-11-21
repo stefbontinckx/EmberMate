@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 struct IconButton: View {
+    @Environment(\.colorScheme) private var scheme
     var headerText: String?
     var footerText: String
     var icon: String
@@ -33,7 +34,7 @@ struct IconButton: View {
                     }
                     Text(footerText)
                         .font(.caption2.monospacedDigit())
-                        .foregroundStyle(.white.opacity(0.75))
+                        .foregroundStyle(Theme.ink(scheme).opacity(0.85))
                 }
             }
             .padding(.vertical, 10)

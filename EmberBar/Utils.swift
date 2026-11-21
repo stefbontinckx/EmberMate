@@ -10,8 +10,10 @@ import SwiftUI
 
 func getBackgroundGradient(_ val: Double) -> [Color] {
     return [
-        interpolateColor(minColor: (247, 209, 111), maxColor: (236, 113, 47), value: val),
-        interpolateColor(minColor: (213, 122, 52), maxColor: (183, 67, 30), value: val),
+        // Amber when barely warm to glowing ember when hot; dark enough that
+        // white text at 85% keeps 4.5:1 contrast across the whole range.
+        interpolateColor(minColor: (147, 87, 30), maxColor: (173, 67, 29), value: val),
+        interpolateColor(minColor: (110, 58, 22), maxColor: (112, 34, 20), value: val),
     ]
 }
 

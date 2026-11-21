@@ -26,6 +26,10 @@ struct MugControlView: View {
 
     private var isEmpty: Bool { emberMug.liquidState == .empty }
 
+    // An empty white mug gets a light, porcelain look with dark text.
+    private var scheme: ColorScheme { isEmpty && emberMug.colour == .white ? .light : .dark }
+    private var ink: Color { Theme.ink(scheme) }
+
     var body: some View {
         VStack(spacing: 14) {
             header
@@ -65,8 +69,8 @@ struct MugControlView: View {
                 .animation(.easeInOut(duration: 0.8), value: isEmpty)
                 .animation(.easeInOut(duration: 0.8), value: emberMug.colour)
         )
-        .foregroundStyle(.white)
-        .environment(\.colorScheme, .dark) // UI is designed for a dark look on a warm background
+        .foregroundStyle(ink)
+        .environment(\.colorScheme, scheme)
     }
 
     // MARK: - Header
@@ -79,7 +83,7 @@ struct MugControlView: View {
                 Label(emberMug.liquidState.label, systemImage: emberMug.liquidState.symbol)
                     .labelStyle(.titleAndIcon)
                     .font(.caption)
-                    .foregroundStyle(.white.opacity(0.8))
+                    .foregroundStyle(ink.opacity(0.85))
             }
 
             Spacer()
@@ -93,7 +97,7 @@ struct MugControlView: View {
             .font(.caption)
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
-            .background(Capsule().fill(Color.black.opacity(0.22)))
+            .background(Capsule().fill(Theme.wash(0.22, scheme)))
 
             Button {
                 if emberMug.isHeatingOff {
@@ -106,7 +110,7 @@ struct MugControlView: View {
                 Image(systemName: "power")
                     .font(.system(size: 13, weight: .semibold))
                     .frame(width: 26, height: 26)
-                    .background(Circle().fill(emberMug.isHeatingOff ? Color.black.opacity(0.22) : Color.white.opacity(0.28)))
+                    .background(Circle().fill(emberMug.isHeatingOff ? Theme.wash(0.22, scheme) : ink.opacity(0.28)))
             }
             .buttonStyle(.plain)
             .disabled(emberMug.canWrite == false)
@@ -119,7 +123,7 @@ struct MugControlView: View {
                 Image(systemName: "gearshape.fill")
                     .font(.system(size: 13))
                     .frame(width: 26, height: 26)
-                    .background(Circle().fill(Color.black.opacity(0.22)))
+                    .background(Circle().fill(Theme.wash(0.22, scheme)))
             }
             .buttonStyle(.plain)
             .help("Settings")
@@ -160,7 +164,7 @@ struct MugControlView: View {
                         }
                     }
                         .font(.caption.monospacedDigit())
-                        .foregroundStyle(.white.opacity(0.75))
+                        .foregroundStyle(ink.opacity(0.85))
                         .numericTransition()
                 }
                 .animation(.spring(response: 0.35, dampingFraction: 0.85), value: emberMug.currentTemp)
@@ -194,7 +198,7 @@ struct MugControlView: View {
                         .font(.subheadline.weight(.semibold))
                     Text("Set it up once in the Ember app on your phone. Click for details.")
                         .font(.caption)
-                        .foregroundStyle(.white.opacity(0.8))
+                        .foregroundStyle(ink.opacity(0.85))
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 Spacer(minLength: 0)
@@ -244,7 +248,7 @@ struct MugControlView: View {
             Spacer()
         }
         .font(.caption)
-        .foregroundStyle(.white.opacity(0.8))
+        .foregroundStyle(ink.opacity(0.85))
         .padding(.horizontal, 4)
     }
 
@@ -256,7 +260,7 @@ struct MugControlView: View {
         .font(.caption.monospacedDigit())
         .padding(.horizontal, 10)
         .padding(.vertical, 5)
-        .background(Capsule().fill(Color.black.opacity(0.22)))
+        .background(Capsule().fill(Theme.wash(0.22, scheme)))
     }
 
     // MARK: - Info tiles
@@ -326,7 +330,7 @@ struct MugControlView: View {
         VStack(alignment: .leading, spacing: 4) {
             Label(title, systemImage: systemImage)
                 .font(.caption)
-                .foregroundStyle(.white.opacity(0.75))
+                .foregroundStyle(ink.opacity(0.85))
             value()
                 .font(.system(.title3, design: .rounded).weight(.semibold).monospacedDigit())
                 .lineLimit(1)
@@ -399,11 +403,11 @@ struct MugControlView: View {
 }
 
 // Background of an empty mug: a muted take on the mug's own finish. Each top
-// colour is dark enough for the white text (white at 75% reaches 4.5:1), so
-// light finishes like white and stainless steel are shown as soft greys.
+// colour is dark enough for the white text (white at 85% reaches 4.5:1); a
+// white mug instead gets a porcelain background with dark text.
 private func emptyGradient(for colour: MugColour?) -> [Color] {
     switch colour {
-    case .white: [getColor(92, 94, 102), getColor(74, 76, 84)]
+    case .white: [getColor(246, 245, 242), getColor(216, 215, 211)] // light look, dark text
     case .grey: [getColor(94, 92, 90), getColor(56, 54, 52)]
     case .red: [getColor(133, 78, 80), getColor(66, 38, 42)]
     case .blue: [getColor(76, 94, 126), getColor(38, 48, 70)]
@@ -420,6 +424,7 @@ private func emptyGradient(for colour: MugColour?) -> [Color] {
 
 // Circular gauge: the arc shows the current temperature, the dot marks the target.
 private struct TemperatureRing<Content: View>: View {
+    @Environment(\.colorScheme) private var scheme
     var progress: Double
     var targetProgress: Double?
     @ViewBuilder var content: Content
@@ -432,7 +437,7 @@ private struct TemperatureRing<Content: View>: View {
         ZStack {
             Circle()
                 .trim(from: 0, to: span)
-                .stroke(Color.black.opacity(0.22), style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+                .stroke(Theme.wash(0.22, scheme), style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
                 .rotationEffect(.degrees(135))
 
             Circle()
@@ -455,7 +460,7 @@ private struct TemperatureRing<Content: View>: View {
                 let radius = min(geo.size.width, geo.size.height) / 2
                 let angle = Angle.degrees(135 + 270 * targetProgress)
                 Circle()
-                    .fill(.white)
+                    .fill(scheme == .light ? Theme.ink(scheme) : .white)
                     .frame(width: lineWidth + 5, height: lineWidth + 5)
                     .shadow(color: .black.opacity(0.35), radius: 2)
                     .position(
@@ -473,8 +478,9 @@ private struct TemperatureRing<Content: View>: View {
 }
 
 #if DEBUG
-private func previewMug(current: Double, target: Double, state: LiquidState) -> EmberMug {
+private func previewMug(current: Double, target: Double, state: LiquidState, colour: MugColour? = .black) -> EmberMug {
     let mug = EmberMug()
+    mug.setPreviewColour(colour)
     mug.currentTemp = current
     mug.targetTemp = target
     mug.liquidState = state
@@ -494,6 +500,22 @@ private func previewMug(current: Double, target: Double, state: LiquidState) -> 
 #Preview("Empty") {
     MugControlView()
         .environmentObject(previewMug(current: 30, target: 55.0, state: .empty))
+        .environmentObject(AppState())
+        .environmentObject(AutoOffController(appState: AppState(), emberMug: EmberMug()))
+        .environmentObject(DrinkTracker(emberMug: EmberMug()))
+}
+
+#Preview("Hot") {
+    MugControlView()
+        .environmentObject(previewMug(current: 62, target: 57.0, state: .cooling))
+        .environmentObject(AppState())
+        .environmentObject(AutoOffController(appState: AppState(), emberMug: EmberMug()))
+        .environmentObject(DrinkTracker(emberMug: EmberMug()))
+}
+
+#Preview("Empty, white mug") {
+    MugControlView()
+        .environmentObject(previewMug(current: 30, target: 55.0, state: .empty, colour: .white))
         .environmentObject(AppState())
         .environmentObject(AutoOffController(appState: AppState(), emberMug: EmberMug()))
         .environmentObject(DrinkTracker(emberMug: EmberMug()))

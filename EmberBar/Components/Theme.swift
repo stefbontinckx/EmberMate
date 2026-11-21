@@ -5,27 +5,41 @@
 
 import SwiftUI
 
-// Shared look for the menu bar popover: translucent cards on a warm gradient.
+// Shared look for the menu bar popover: translucent cards on a coloured
+// gradient. The popover is dark (white text) except for an empty white mug,
+// which gets a light look with dark text; `colorScheme` tells them apart.
 enum Theme {
     static let popoverWidth: CGFloat = 320
     static let cornerRadius: CGFloat = 12
-    static let cardFill = Color.black.opacity(0.22)
-    static let cardFillSelected = Color.black.opacity(0.45)
-    static let cardStroke = Color.white.opacity(0.08)
+
+    // Text colour on the popover background.
+    static func ink(_ scheme: ColorScheme) -> Color {
+        scheme == .light ? Color(red: 0.13, green: 0.13, blue: 0.15) : .white
+    }
+
+    // Darkening layer for cards and buttons; much lighter on the light look.
+    static func wash(_ amount: Double, _ scheme: ColorScheme) -> Color {
+        Color.black.opacity(scheme == .light ? amount * 0.3 : amount)
+    }
+
+    static func stroke(_ scheme: ColorScheme) -> Color {
+        scheme == .light ? Color.black.opacity(0.08) : Color.white.opacity(0.08)
+    }
 }
 
 struct CardBackground: ViewModifier {
     var isSelected: Bool = false
+    @Environment(\.colorScheme) private var scheme
 
     func body(content: Content) -> some View {
         content
             .background(
                 RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous)
-                    .fill(isSelected ? Theme.cardFillSelected : Theme.cardFill)
+                    .fill(Theme.wash(isSelected ? 0.45 : 0.22, scheme))
             )
             .overlay(
                 RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous)
-                    .strokeBorder(isSelected ? Color.white.opacity(0.7) : Theme.cardStroke, lineWidth: isSelected ? 1.5 : 1)
+                    .strokeBorder(isSelected ? Theme.ink(scheme).opacity(0.7) : Theme.stroke(scheme), lineWidth: isSelected ? 1.5 : 1)
             )
     }
 }
@@ -48,13 +62,15 @@ extension View {
 
 // Round +/- button used next to the temperature ring.
 struct CircleIconButtonStyle: ButtonStyle {
+    @Environment(\.colorScheme) private var scheme
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.system(size: 15, weight: .semibold))
-            .foregroundStyle(.white)
+            .foregroundStyle(Theme.ink(scheme))
             .frame(width: 38, height: 38)
-            .background(Circle().fill(Color.black.opacity(configuration.isPressed ? 0.45 : 0.25)))
-            .overlay(Circle().strokeBorder(Theme.cardStroke))
+            .background(Circle().fill(Theme.wash(configuration.isPressed ? 0.45 : 0.25, scheme)))
+            .overlay(Circle().strokeBorder(Theme.stroke(scheme)))
             .scaleEffect(configuration.isPressed ? 0.92 : 1)
             .animation(.easeOut(duration: 0.12), value: configuration.isPressed)
     }
@@ -62,14 +78,16 @@ struct CircleIconButtonStyle: ButtonStyle {
 
 // Small capsule button (timer durations).
 struct PillButtonStyle: ButtonStyle {
+    @Environment(\.colorScheme) private var scheme
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.system(size: 12, weight: .medium).monospacedDigit())
-            .foregroundStyle(.white)
+            .foregroundStyle(Theme.ink(scheme))
             .padding(.horizontal, 10)
             .padding(.vertical, 4)
-            .background(Capsule().fill(Color.black.opacity(configuration.isPressed ? 0.45 : 0.25)))
-            .overlay(Capsule().strokeBorder(Theme.cardStroke))
+            .background(Capsule().fill(Theme.wash(configuration.isPressed ? 0.45 : 0.25, scheme)))
+            .overlay(Capsule().strokeBorder(Theme.stroke(scheme)))
     }
 }
 
