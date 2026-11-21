@@ -398,21 +398,23 @@ struct MugControlView: View {
     }
 }
 
-// Background of an empty mug: a muted take on the mug's own finish.
+// Background of an empty mug: a muted take on the mug's own finish. Each top
+// colour is dark enough for the white text (white at 75% reaches 4.5:1), so
+// light finishes like white and stainless steel are shown as soft greys.
 private func emptyGradient(for colour: MugColour?) -> [Color] {
     switch colour {
-    case .white: [getColor(150, 150, 156), getColor(92, 92, 98)]
-    case .grey: [getColor(118, 120, 124), getColor(62, 64, 68)]
-    case .red: [getColor(140, 82, 84), getColor(66, 38, 42)]
-    case .blue: [getColor(84, 104, 140), getColor(38, 48, 70)]
-    case .copper: [getColor(150, 104, 80), getColor(70, 46, 36)]
-    case .gold: [getColor(150, 128, 82), getColor(72, 60, 36)]
-    case .roseGold: [getColor(152, 112, 110), getColor(72, 50, 52)]
-    case .stainlessSteel: [getColor(130, 136, 142), getColor(64, 68, 74)]
-    case .sandstone: [getColor(146, 130, 108), getColor(70, 62, 50)]
-    case .sageGreen: [getColor(110, 128, 106), getColor(50, 62, 50)]
+    case .white: [getColor(92, 94, 102), getColor(74, 76, 84)]
+    case .grey: [getColor(94, 92, 90), getColor(56, 54, 52)]
+    case .red: [getColor(133, 78, 80), getColor(66, 38, 42)]
+    case .blue: [getColor(76, 94, 126), getColor(38, 48, 70)]
+    case .copper: [getColor(121, 84, 65), getColor(70, 46, 36)]
+    case .gold: [getColor(106, 91, 58), getColor(64, 54, 32)]
+    case .roseGold: [getColor(116, 85, 84), getColor(68, 48, 50)]
+    case .stainlessSteel: [getColor(86, 94, 102), getColor(50, 56, 64)]
+    case .sandstone: [getColor(102, 91, 76), getColor(62, 55, 44)]
+    case .sageGreen: [getColor(84, 97, 81), getColor(46, 56, 46)]
     case .black: [getColor(84, 84, 90), getColor(28, 28, 32)]
-    case nil: [getColor(120, 120, 128), getColor(52, 52, 58)]
+    case nil: [getColor(92, 92, 99), getColor(52, 52, 58)]
     }
 }
 
