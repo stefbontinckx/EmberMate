@@ -21,17 +21,17 @@ class AppState: ObservableObject {
     @AppStorage("presets") var presets: [Preset] = [
         Preset(
             icon: "cup.and.saucer.fill",
-            name: "Latte",
+            name: String(localized: "Latte"),
             temperature: 52.0
         ),
         Preset(
             icon: "mug.fill",
-            name: "Coffee",
+            name: String(localized: "Coffee"),
             temperature: 55.0
         ),
         Preset(
             icon: "leaf.fill",
-            name: "Tea",
+            name: String(localized: "Tea"),
             temperature: 60.0
         )
     ]
@@ -57,6 +57,10 @@ class AppState: ObservableObject {
 
     @MainActor
     func migrateUserDefaults() {
+        // Left over from the removed volume estimate and the manual model picker.
+        for key in ["drinkLog.ml", "mugModelOverride"] {
+            UserDefaults.standard.removeObject(forKey: key)
+        }
         if let oldValue = UserDefaults.standard.object(forKey: "notifyOnLowBattery") as? Bool {
             self.notifyAtBatteryPercentage = oldValue ? .default : .off
             UserDefaults.standard.removeObject(forKey: "notifyOnLowBattery")
@@ -136,7 +140,7 @@ class Preset: Identifiable, ObservableObject, Codable {
 
     init(
         icon: String = "mug.fill",
-        name: String = "Coffee",
+        name: String = String(localized: "Coffee"),
         temperature: Double = 55.0
     ) {
         self.icon = icon

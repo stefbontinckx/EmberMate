@@ -156,6 +156,83 @@
         }
       }
     },
+    "%@ · %lld min": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld min"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld min"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld Min."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld min"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld min"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld min"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld min"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld min"
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld min"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld min"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld min"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld分"
+          }
+        }
+      },
+      "comment": "Poured tile: clock time, then minutes since pouring"
+    },
     "%lld cups": {
       "localizations": {
         "en": {
@@ -551,6 +628,83 @@
           }
         }
       }
+    },
+    "<1 min": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 min"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 min"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 Min."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 min"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 min"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 min"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 min"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 min"
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 min"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 min"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 min"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1分未満"
+          }
+        }
+      },
+      "comment": "Menu bar: less than a minute left on the timer"
     },
     "A cup counts when the mug goes from filled to empty. This stays on this Mac.": {
       "localizations": {
@@ -1616,6 +1770,83 @@
         }
       }
     },
+    "Coffee": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koffie"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Café"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaffee"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Café"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Caffè"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Café"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kawa"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaffe"
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaffe"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaffe"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kahvi"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "コーヒー"
+          }
+        }
+      },
+      "comment": "Default preset name"
+    },
     "Cold": {
       "localizations": {
         "nl": {
@@ -1688,82 +1919,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "冷めています"
-          }
-        }
-      }
-    },
-    "Color": {
-      "localizations": {
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kleur"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Couleur"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Farbe"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Color"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Colore"
-          }
-        },
-        "pt-PT": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cor"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kolor"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Färg"
-          }
-        },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Farve"
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Farge"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Väri"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "色"
           }
         }
       }
@@ -2300,7 +2455,7 @@
         }
       }
     },
-    "Custom color": {
+    "Custom colour": {
       "localizations": {
         "nl": {
           "stringUnit": {
@@ -3907,6 +4062,83 @@
           }
         }
       }
+    },
+    "Latte": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Latte"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Latte"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Latte"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Latte"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Latte"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galão"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Latte"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Latte"
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Latte"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Latte"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Latte"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ラテ"
+          }
+        }
+      },
+      "comment": "Default preset name"
     },
     "Level sensor": {
       "localizations": {
@@ -7708,6 +7940,83 @@
         }
       }
     },
+    "Tea": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thee"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thé"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tee"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Té"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tè"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chá"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Herbata"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Te"
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Te"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Te"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tee"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "紅茶"
+          }
+        }
+      },
+      "comment": "Default preset name"
+    },
     "Temperature": {
       "localizations": {
         "nl": {
@@ -8772,6 +9081,82 @@
         }
       }
     },
+    "Unknown device": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onbekend apparaat"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appareil inconnu"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unbekanntes Gerät"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dispositivo desconocido"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dispositivo sconosciuto"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dispositivo desconhecido"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nieznane urządzenie"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Okänd enhet"
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ukendt enhed"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ukjent enhet"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tuntematon laite"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不明なデバイス"
+          }
+        }
+      }
+    },
     "Use up to 16 letters, digits, spaces or simple punctuation.": {
       "localizations": {
         "nl": {
@@ -9000,78 +9385,78 @@
         }
       }
     },
-    "When off, the window shows how much is in the mug and what you drank today instead.": {
+    "When off, the window shows when you poured your drink and when it will be ready instead.": {
       "localizations": {
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Staat dit uit, dan toont het venster in de plaats hoeveel er in de mok zit en wat je vandaag dronk."
+            "value": "Staat dit uit, dan toont het venster in de plaats wanneer je inschonk en wanneer je drankje klaar is."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Désactivé, la fenêtre affiche plutôt le contenu de la tasse et ce que vous avez bu aujourd'hui."
+            "value": "Désactivé, la fenêtre affiche plutôt quand vous avez versé votre boisson et quand elle sera prête."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wenn aus, zeigt das Fenster stattdessen, wie viel im Becher ist und was du heute getrunken hast."
+            "value": "Wenn aus, zeigt das Fenster stattdessen, wann du eingeschenkt hast und wann dein Getränk fertig ist."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Si está desactivado, la ventana muestra cuánto queda en la taza y lo que has bebido hoy."
+            "value": "Si está desactivado, la ventana muestra cuándo serviste la bebida y cuándo estará lista."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Se disattivato, la finestra mostra quanto c'è nella tazza e cosa hai bevuto oggi."
+            "value": "Se disattivato, la finestra mostra quando hai versato la bevanda e quando sarà pronta."
           }
         },
         "pt-PT": {
           "stringUnit": {
             "state": "translated",
-            "value": "Se desativado, a janela mostra quanto há na caneca e o que bebeu hoje."
+            "value": "Se desativado, a janela mostra quando serviu a bebida e quando estará pronta."
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gdy wyłączone, okno pokazuje, ile jest w kubku i ile dziś wypito."
+            "value": "Gdy wyłączone, okno pokazuje, kiedy nalano napój i kiedy będzie gotowy."
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "När det är av visar fönstret i stället hur mycket som finns i muggen och vad du druckit i dag."
+            "value": "När det är av visar fönstret i stället när du hällde upp och när drycken är klar."
           }
         },
         "da": {
           "stringUnit": {
             "state": "translated",
-            "value": "Når det er slået fra, viser vinduet i stedet, hvor meget der er i kruset, og hvad du har drukket i dag."
+            "value": "Når det er slået fra, viser vinduet i stedet, hvornår du skænkede op, og hvornår drikken er klar."
           }
         },
         "nb": {
           "stringUnit": {
             "state": "translated",
-            "value": "Når det er av, viser vinduet i stedet hvor mye som er i kruset og hva du har drukket i dag."
+            "value": "Når det er av, viser vinduet i stedet når du skjenket opp og når drikken er klar."
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kun pois päältä, ikkuna näyttää mukin sisällön ja tämän päivän juomasi."
+            "value": "Kun pois päältä, ikkuna näyttää sen sijaan, milloin kaadoit juoman ja milloin se on valmis."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "オフにすると、代わりにマグの残量と今日飲んだ量を表示します。"
+            "value": "オフにすると、代わりに注いだ時刻と飲み頃になる時刻を表示します。"
           }
         }
       }

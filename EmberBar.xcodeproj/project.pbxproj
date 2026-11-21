@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1A31E58A2B1ED18A0082AD12 /* EmberBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A31E5892B1ED18A0082AD12 /* EmberBarApp.swift */; };
 		EB0000000000000000000021 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = EB0000000000000000000022 /* Localizable.xcstrings */; };
+		EB0000000000000000000023 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = EB0000000000000000000024 /* InfoPlist.xcstrings */; };
 		1A31E58E2B1ED18B0082AD12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A31E58D2B1ED18B0082AD12 /* Assets.xcassets */; };
 		1A31E5912B1ED18B0082AD12 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A31E5902B1ED18B0082AD12 /* Preview Assets.xcassets */; };
 		1A31E5992B1ED1B00082AD12 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A31E5982B1ED1B00082AD12 /* AppView.swift */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		EB0000000000000000000022 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		EB0000000000000000000024 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		1A31E5862B1ED18A0082AD12 /* EmberBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmberBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A31E5892B1ED18A0082AD12 /* EmberBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmberBarApp.swift; sourceTree = "<group>"; };
 		1A31E58D2B1ED18B0082AD12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				1AF9BE712B2E2D35002C930D /* NotificationAdapter.swift */,
 				1A31E58D2B1ED18B0082AD12 /* Assets.xcassets */,
 				EB0000000000000000000022 /* Localizable.xcstrings */,
+				EB0000000000000000000024 /* InfoPlist.xcstrings */,
 				1A31E5922B1ED18B0082AD12 /* EmberBar.entitlements */,
 				1A31E58F2B1ED18B0082AD12 /* Preview Content */,
 			);
@@ -239,6 +242,7 @@
 				1A31E5912B1ED18B0082AD12 /* Preview Assets.xcassets in Resources */,
 				1A31E58E2B1ED18B0082AD12 /* Assets.xcassets in Resources */,
 				EB0000000000000000000021 /* Localizable.xcstrings in Resources */,
+				EB0000000000000000000023 /* InfoPlist.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

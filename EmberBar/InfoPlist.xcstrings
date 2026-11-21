@@ -1,0 +1,173 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "CFBundleDisplayName": {
+      "shouldTranslate": false
+    },
+    "NSBluetoothAlwaysUsageDescription": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar gebruikt Bluetooth om met je Ember-mok te praten."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar utilise le Bluetooth pour communiquer avec votre tasse Ember."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar verwendet Bluetooth, um mit deinem Ember-Becher zu kommunizieren."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar usa Bluetooth para comunicarse con tu taza Ember."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar usa il Bluetooth per comunicare con la tua tazza Ember."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O EmberBar usa Bluetooth para comunicar com a sua caneca Ember."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar używa Bluetooth do komunikacji z kubkiem Ember."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar använder Bluetooth för att prata med din Ember-mugg."
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar bruger Bluetooth til at tale med dit Ember-krus."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar bruker Bluetooth for å snakke med Ember-kruset ditt."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar käyttää Bluetoothia Ember-mukisi kanssa viestimiseen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBarはBluetoothを使ってEmberマグと通信します。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar uses Bluetooth to talk to your Ember mug."
+          }
+        }
+      }
+    },
+    "NSBluetoothPeripheralUsageDescription": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar gebruikt Bluetooth om met je Ember-mok te praten."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar utilise le Bluetooth pour communiquer avec votre tasse Ember."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar verwendet Bluetooth, um mit deinem Ember-Becher zu kommunizieren."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar usa Bluetooth para comunicarse con tu taza Ember."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar usa il Bluetooth per comunicare con la tua tazza Ember."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O EmberBar usa Bluetooth para comunicar com a sua caneca Ember."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar używa Bluetooth do komunikacji z kubkiem Ember."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar använder Bluetooth för att prata med din Ember-mugg."
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar bruger Bluetooth til at tale med dit Ember-krus."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar bruker Bluetooth for å snakke med Ember-kruset ditt."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar käyttää Bluetoothia Ember-mukisi kanssa viestimiseen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBarはBluetoothを使ってEmberマグと通信します。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EmberBar uses Bluetooth to talk to your Ember mug."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

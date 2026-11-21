@@ -24,6 +24,9 @@ enum LiquidState: Int {
     case heating = 5
     case stableTemperature = 6
     case warmNoTempControl = 7
+
+    // The mug can fall asleep (standby) after being emptied.
+    var isEmptyOrStandby: Bool { self == .empty || self == .standby }
 }
 
 enum TemperatureUnit: Int {
@@ -67,7 +70,6 @@ struct LEDColor: Equatable {
 struct FirmwareInfo: Equatable {
     var firmware: Int
     var hardware: Int
-    var bootloader: Int
 }
 
 // Characteristics of the main Ember service we use. UUID = fc54XXXX-236c-4c94-8fa9-944a3e5353fa.
@@ -155,10 +157,16 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
 
     private var cancellables: Set<AnyCancellable> = []
 
+    // Set when a target write failed: don't keep writing it back, or a mug that
+    // refuses it would be flooded. Cleared once the user picks a target again.
+    private var targetWriteFailed = false
+
     private var preferredTemperatureUnit: TemperatureUnit? {
         guard UserDefaults.standard.object(forKey: Self.temperatureUnitKey) != nil else { return nil }
         return TemperatureUnit(rawValue: UserDefaults.standard.integer(forKey: Self.temperatureUnitKey))
     }
+
+    var isConnected: Bool { peripheral?.state == .connected }
 
     // The heater is off when the mug's target temperature is 0.
     var isHeatingOff: Bool { targetTemp < 1 }
@@ -212,6 +220,7 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
         peripheral.delegate = self
         characteristics = [:]
         canWrite = nil
+        targetWriteFailed = false
         model = MugModel.remembered(for: peripheral.identifier)
         colour = MugColour.remembered(for: peripheral.identifier)
     }
@@ -249,12 +258,12 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
     // MARK: - Writes
 
     private func write(_ data: Data, to kind: MugCharacteristic) {
-        guard let peripheral, let characteristic = characteristics[kind] else { return }
+        guard let peripheral, peripheral.state == .connected, let characteristic = characteristics[kind] else { return }
         peripheral.writeValue(data, for: characteristic, type: .withResponse)
     }
 
     private func read(_ kind: MugCharacteristic) {
-        guard let peripheral, let characteristic = characteristics[kind] else { return }
+        guard let peripheral, peripheral.state == .connected, let characteristic = characteristics[kind] else { return }
         peripheral.readValue(for: characteristic)
     }
 
@@ -268,6 +277,7 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
         guard (Self.minTemp...Self.maxTemp).contains(temp) else { return }
 
         targetTemp = temp
+        targetWriteFailed = false
         UserDefaults.standard.set(temp, forKey: Self.lastTargetKey)
         UserDefaults.standard.set(temp, forKey: Self.preferredTargetKey)
         writeTarget(temp)
@@ -337,7 +347,7 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
         switch kind {
         case .targetTemp:
             let reported = Double(data.extractUInt16()) * 0.01
-            if canWrite != false, let preferred = preferredTarget, reported >= 1, abs(reported - preferred) > 0.05 {
+            if canWrite != false, !targetWriteFailed, let preferred = preferredTarget, reported >= 1, abs(reported - preferred) > 0.05 {
                 // Heating is on but at another target than the user chose: put theirs back.
                 log.notice("Mug reported target \(reported, privacy: .public), restoring \(preferred, privacy: .public)")
                 targetTemp = preferred
@@ -383,8 +393,7 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
             let bytes = [UInt8](data)
             firmware = FirmwareInfo(
                 firmware: Int(data.extractUInt16()),
-                hardware: Int(Data(bytes[2...]).extractUInt16()),
-                bootloader: bytes.count >= 6 ? Int(Data(bytes[4...]).extractUInt16()) : 0
+                hardware: Int(Data(bytes[2...]).extractUInt16())
             )
         case .pushEvents:
             handle(PushEvent(rawValue: data[0]))
@@ -419,18 +428,18 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
             if (error as? CBATTError)?.code == .writeNotPermitted {
                 canWrite = false
             }
+            if kind == .targetTemp { targetWriteFailed = true }
         } else {
             canWrite = true
         }
         // Read back so the window shows what the mug really uses, also after a refusal.
         switch kind {
         case .targetTemp: read(.targetTemp)
-        case .color: read(.color)
+        case .name: read(.name)
+        // Only after a refusal: a successful read-back could arrive after a newer
+        // colour is already queued and make the slider jump back.
+        case .color where error != nil: read(.color)
         default: break
-        }
-        // Read the name back so we show what the mug actually stored.
-        if MugCharacteristic(uuid: characteristic.uuid) == .name {
-            read(.name)
         }
     }
 

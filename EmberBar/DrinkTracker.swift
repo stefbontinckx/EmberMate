@@ -130,7 +130,7 @@ final class DrinkTracker: ObservableObject {
             let work = DispatchWorkItem { [weak self] in
                 guard let self else { return }
                 self.pendingFinish = nil
-                guard self.emberMug.liquidState == .empty else { return }
+                guard self.emberMug.liquidState.isEmptyOrStandby else { return }
                 self.finishCup()
                 self.isFilled = false
                 self.pouredAt = nil

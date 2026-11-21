@@ -246,7 +246,7 @@ struct MugSettingsView: View {
                     }
                     if let level = emberMug.liquidLevel {
                         // Raw reading, plus how full EmberBar takes that to be (13 and up = full).
-                        LabeledContent("Level sensor", value: "\(level) · \(Int((min(Double(level) / EmberMug.fullLiquidLevel, 1) * 100).rounded()))%")
+                        LabeledContent("Level sensor", value: "\(level) · \(min(Double(level) / EmberMug.fullLiquidLevel, 1).formatted(.percent.precision(.fractionLength(0))))")
                     }
                 } header: {
                     Text("Details")
@@ -304,7 +304,7 @@ struct PresetsSettingsView: View {
                 Text("Temperature presets")
             } footer: {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("When off, the window shows how much is in the mug and what you drank today instead.")
+                    Text("When off, the window shows when you poured your drink and when it will be ready instead.")
                     Text("Tip: hold a preset in the menu bar window to save the current target to it.")
                 }
                 .foregroundStyle(.secondary)
@@ -400,7 +400,7 @@ struct AboutSettingsView: View {
     }
 }
 
-extension Array: RawRepresentable where Element: Codable {
+extension Array: @retroactive RawRepresentable where Element: Codable {
     public init?(rawValue: String) {
         guard let data = rawValue.data(using: .utf8),
               let result = try? JSONDecoder().decode([Element].self, from: data)

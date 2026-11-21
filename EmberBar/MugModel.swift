@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MugModel: String, CaseIterable {
+enum MugModel: String {
     case cup6
     case mug1Small
     case mug1Large
@@ -16,16 +16,31 @@ enum MugModel: String, CaseIterable {
     case travelMug
     case tumbler
 
-    var displayName: String {
+    // Product names stay as Ember writes them; the size is shown in the user's units.
+    private var productName: String {
         switch self {
-        case .cup6: "Ember Cup (178 ml)"
-        case .mug1Small: "Ember Mug (295 ml)"
-        case .mug1Large: "Ember Mug (414 ml)"
-        case .mug2Small: "Ember Mug 2 (295 ml)"
-        case .mug2Large: "Ember Mug 2 (414 ml)"
-        case .travelMug: "Ember Travel Mug (355 ml)"
-        case .tumbler: "Ember Tumbler (473 ml)"
+        case .cup6: "Ember Cup"
+        case .mug1Small, .mug1Large: "Ember Mug"
+        case .mug2Small, .mug2Large: "Ember Mug 2"
+        case .travelMug: "Ember Travel Mug"
+        case .tumbler: "Ember Tumbler"
         }
+    }
+
+    private var capacity: Measurement<UnitVolume> {
+        let millilitres: Double = switch self {
+        case .cup6: 178
+        case .mug1Small, .mug2Small: 295
+        case .mug1Large, .mug2Large: 414
+        case .travelMug: 355
+        case .tumbler: 473
+        }
+        return Measurement(value: millilitres, unit: .milliliters)
+    }
+
+    var displayName: String {
+        let size = capacity.formatted(.measurement(width: .abbreviated, usage: .asProvided))
+        return "\(productName) (\(size))"
     }
 
     // Bluetooth SIG company ID of Ember, and the ID used on test units.
@@ -84,7 +99,7 @@ enum MugModel: String, CaseIterable {
 }
 
 // Finish of the mug, from the same advertisement (codes after python-ember-mug).
-enum MugColour: String, CaseIterable {
+enum MugColour: String {
     case black, white, grey, red, blue, copper, gold, roseGold, stainlessSteel, sandstone, sageGreen
 
     init?(code: Int) {
@@ -92,7 +107,7 @@ enum MugColour: String, CaseIterable {
         case -127, -63, 1, 14, 65: self = .black
         case -126, -62, 2, 130: self = .white
         case -120, -117, -56, -53, 8, 11: self = .red
-        case -131, -125, -61, 3, 51, 83: self = .copper
+        case -125, -61, 3, 51, 83: self = .copper
         case -124, -60: self = .roseGold
         case -123, -59: self = .stainlessSteel
         case -51: self = .sandstone

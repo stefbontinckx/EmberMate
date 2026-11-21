@@ -109,6 +109,7 @@ class BluetoothManager: NSObject, ObservableObject {
 
     func connect(peripheral: CBPeripheral) {
         state = .connecting
+        peripheralIdentifier = peripheral.identifier
         UserDefaults.standard.set(peripheral.identifier.uuidString, forKey: "peripheralIdentifier")
         peripheral.delegate = emberMug
         centralManager?.connect(peripheral)
@@ -167,6 +168,7 @@ class BluetoothManager: NSObject, ObservableObject {
         if let peripheral = emberMug.peripheral {
             centralManager?.cancelPeripheralConnection(peripheral)
         }
+        peripheralIdentifier = nil
         UserDefaults.standard.removeObject(forKey: "peripheralIdentifier")
         state = .disconnected
     }
@@ -176,23 +178,35 @@ extension BluetoothManager: CBCentralManagerDelegate {
 
 
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        if central.state == .poweredOn {
-            // Try to reconnect to a known device
-            if let peripheralIdentifier = peripheralIdentifier {
-                let peripherals = central.retrievePeripherals(withIdentifiers: [peripheralIdentifier])
-                if let peripheral = peripherals.first {
-                    self.peripherals.append(peripheral)
-                    peripheral.delegate = emberMug
-                    central.connect(peripheral, options: nil)
-                } else {
-                    print("Peripheral not found. Make sure the device is nearby and powered on.")
-                }
-            } else {
-                print("No stored peripheral identifier. Connect to the device for the first time.")
-            }
-
-            startScanning()
+        guard central.state == .poweredOn else {
+            // Bluetooth went off (or isn't allowed). CoreBluetooth doesn't report a
+            // disconnect for this, so drop the link ourselves; it is picked up
+            // again below once Bluetooth is back on.
+            stopHeartbeat()
+            staleTimer?.invalidate()
+            staleTimer = nil
+            peripherals.removeAll()
+            recentlySeen.removeAll()
+            if state != .disconnected { state = .reConnecting }
+            return
         }
+        // Try to reconnect to a known device
+        if let peripheralIdentifier = peripheralIdentifier {
+            let peripherals = central.retrievePeripherals(withIdentifiers: [peripheralIdentifier])
+            if let peripheral = peripherals.first {
+                if !self.peripherals.contains(peripheral) {
+                    self.peripherals.append(peripheral)
+                }
+                peripheral.delegate = emberMug
+                central.connect(peripheral, options: nil)
+            } else {
+                print("Peripheral not found. Make sure the device is nearby and powered on.")
+            }
+        } else {
+            print("No stored peripheral identifier. Connect to the device for the first time.")
+        }
+
+        startScanning()
     }
 
     func centralManager(
@@ -205,8 +219,9 @@ extension BluetoothManager: CBCentralManagerDelegate {
         // Silently pick up model and colour whenever the mug is in pairing mode.
         if let data = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data,
            let info = MugModel.parse(manufacturerData: data),
-           info.model != MugModel.remembered(for: peripheral.identifier)
-            || info.colour != MugColour.remembered(for: peripheral.identifier) {
+           // Only what is new: a field the parse couldn't read isn't a change.
+           (info.model != nil && info.model != MugModel.remembered(for: peripheral.identifier))
+            || (info.colour != nil && info.colour != MugColour.remembered(for: peripheral.identifier)) {
             log.notice("Advertisement \(data.map { String(format: "%02x", $0) }.joined(), privacy: .public) -> \(info.model?.rawValue ?? "unknown", privacy: .public), \(info.colour?.rawValue ?? "unknown", privacy: .public)")
             emberMug.remember(model: info.model, colour: info.colour, for: peripheral.identifier)
         }

@@ -17,16 +17,21 @@ func getBackgroundGradient(_ val: Double) -> [Color] {
     ]
 }
 
+// Temperatures and percentages follow the user's locale (55,5° in Dutch, 72 % in French).
 func getFormattedTemperature(_ temp: Double, unit: TemperatureUnit) -> String {
     if unit == .celsius {
-        return String(format: "%.1f°", temp)
+        return temp.formatted(.number.precision(.fractionLength(1))) + "°"
     }
 
-    return String(format: "%.0f°", (temp * 9/5) + 32)
+    return fahrenheit(temp).formatted(.number.precision(.fractionLength(0))) + "°"
+}
+
+func fahrenheit(_ celsius: Double) -> Double {
+    celsius * 9 / 5 + 32
 }
 
 func getFormattedBatteryLevel(_ batteryLevel: Int) -> String {
-    return String(format: "%d%%", batteryLevel)
+    batteryLevel.formatted(.percent)
 }
 
 func formatTime(_ seconds: Int) -> String {

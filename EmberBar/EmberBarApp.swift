@@ -99,13 +99,11 @@ struct EmberBarApp: App {
     }
 
     func formatCountdown(_ countdown: Int) -> String {
-        let roundedMinutes = countdown.dividedReportingOverflow(by: 60)
-        let minutes = roundedMinutes.partialValue
-        
-        if (minutes == 0) {
-            return ">1min"
+        let minutes = countdown / 60
+        if minutes == 0 {
+            return String(localized: "<1 min", comment: "Menu bar: less than a minute left on the timer")
         }
-        return "\(minutes)min"
+        return String(localized: "\(minutes) min")
     }
 }
 

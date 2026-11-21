@@ -57,7 +57,7 @@ final class AutoOffController: ObservableObject {
             let work = DispatchWorkItem { [weak self] in
                 guard let self else { return }
                 self.pendingReset = nil
-                guard self.emberMug.liquidState == .empty else { return }
+                guard self.emberMug.liquidState.isEmptyOrStandby else { return }
                 self.filledAt = nil
                 self.didTurnOff = false
                 self.update()
@@ -79,7 +79,10 @@ final class AutoOffController: ObservableObject {
 
     private func update() {
         let minutes = appState.autoOffMinutes
-        guard minutes > 0, let filledAt, !didTurnOff, !emberMug.isHeatingOff, emberMug.canWrite != false else {
+        // Only act on a live link: the heater state is stale while disconnected, and
+        // a write then never reaches the mug.
+        guard minutes > 0, let filledAt, !didTurnOff, emberMug.isConnected,
+              !emberMug.isHeatingOff, emberMug.canWrite != false else {
             if deadline != nil { deadline = nil }
             return
         }

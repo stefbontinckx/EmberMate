@@ -43,6 +43,8 @@ class NotificationAdapter {
     // Target temperature we already announced for the current fill.
     private var lastNotifiedTemp: Double?
     private var emptySince: Date?
+    private var lastState: LiquidState?
+    private var lastTarget = 0.0
     private var wasLowBattery = false
     private var notifiedCharged = false
 
@@ -55,25 +57,7 @@ class NotificationAdapter {
             emberMug.$targetTemp.dropFirst()
         )
         .sink { [weak self] state, target in
-            guard let self else { return }
-            if state == .empty {
-                if self.emptySince == nil { self.emptySince = Date() }
-                return
-            }
-            // A real refill (empty for over a minute, not a lifted mug) is announced again.
-            if let emptySince = self.emptySince {
-                if Date().timeIntervalSince(emptySince) >= 60 {
-                    self.lastNotifiedTemp = nil
-                }
-                self.emptySince = nil
-            }
-            switch state {
-            case .stableTemperature where target >= EmberMug.minTemp && target != self.lastNotifiedTemp:
-                self.lastNotifiedTemp = target
-                self.notifyTemperatureReached(target)
-            default:
-                break
-            }
+            self?.liquidChanged(state: state, target: target)
         }
         .store(in: &cancellables)
 
@@ -87,6 +71,37 @@ class NotificationAdapter {
         .store(in: &cancellables)
     }
 
+    private func liquidChanged(state: LiquidState, target: Double) {
+        // Only announce when the mug itself reports it reached the temperature,
+        // or when we just learned the target (e.g. right after connecting).
+        // Picking another target while the drink sits at temperature changes
+        // the target before the mug starts heating; that is not "reached".
+        let stateChanged = state != lastState
+        let targetLearned = lastTarget < EmberMug.minTemp && target >= EmberMug.minTemp
+        lastState = state
+        lastTarget = target
+
+        if state.isEmptyOrStandby {
+            if emptySince == nil { emptySince = Date() }
+            return
+        }
+        // A real refill (empty for over a minute, not a lifted mug) is announced again.
+        if let since = emptySince {
+            if Date().timeIntervalSince(since) >= 60 {
+                lastNotifiedTemp = nil
+            }
+            emptySince = nil
+        }
+        if state == .stableTemperature, stateChanged || targetLearned,
+           target >= EmberMug.minTemp, target != lastNotifiedTemp {
+            lastNotifiedTemp = target
+            notifyTemperatureReached(target)
+        }
+    }
+
+    // Margins so a level that hovers around a threshold doesn't notify again and again.
+    private static let batteryHysteresis = 5
+
     private func batteryChanged(level: Int, charging: Bool) {
         let threshold = appState.notifyAtBatteryPercentage
         if threshold != .off && level <= threshold.rawValue {
@@ -94,7 +109,7 @@ class NotificationAdapter {
                 notifyLowBattery(level)
             }
             wasLowBattery = true
-        } else {
+        } else if charging || threshold == .off || level > threshold.rawValue + Self.batteryHysteresis {
             wasLowBattery = false
         }
 
@@ -107,7 +122,8 @@ class NotificationAdapter {
                 )
             }
             notifiedCharged = true
-        } else if !charging {
+        } else if level < 100 - Self.batteryHysteresis {
+            // Not on every unplug: on the coaster at 100% the mug can toggle charging.
             notifiedCharged = false
         }
     }

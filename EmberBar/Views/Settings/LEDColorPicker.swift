@@ -32,7 +32,7 @@ struct LEDColorPicker: View {
     }
 
     var body: some View {
-        LabeledContent("Color") {
+        LabeledContent("Colour") {
             HStack(spacing: 8) {
                 ForEach(Array(Self.swatches.enumerated()), id: \.offset) { _, swatch in
                     swatchButton(swatch)
@@ -41,9 +41,9 @@ struct LEDColorPicker: View {
             }
         }
 
-        LabeledContent("Custom color") {
+        LabeledContent("Custom colour") {
             ColorPicker(
-                "Custom color",
+                "Custom colour",
                 selection: Binding(
                     get: { isCustom ? current.color : Color.gray },
                     set: { pick($0) }

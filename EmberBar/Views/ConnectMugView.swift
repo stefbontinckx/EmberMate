@@ -53,7 +53,7 @@ struct SelectDeviceView: View {
                     HStack(spacing: 10) {
                         Image(systemName: "mug")
                             .font(.system(size: 18))
-                        Text(peripheral.name ?? "Unknown device")
+                        (peripheral.name.map { Text(verbatim: $0) } ?? Text("Unknown device"))
                             .font(.subheadline.weight(.medium))
                         Spacer()
                         if selectedMug == peripheral {

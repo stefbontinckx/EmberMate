@@ -292,7 +292,8 @@ struct MugControlView: View {
                 // Refresh the "x min ago" part even when nothing else changes.
                 TimelineView(.periodic(from: .now, by: 30)) { context in
                     let minutes = max(0, Int(context.date.timeIntervalSince(pouredAt) / 60))
-                    Text(pouredAt, style: .time) + Text(verbatim: " · ") + Text("\(minutes) min")
+                    let time = pouredAt.formatted(date: .omitted, time: .shortened)
+                    Text("\(time) · \(minutes) min", comment: "Poured tile: clock time, then minutes since pouring")
                 }
             } else if isEmpty {
                 Text("Empty")
@@ -386,7 +387,15 @@ struct MugControlView: View {
             emberMug.turnHeatingOn()
             return
         }
-        let nextTemp = round((emberMug.targetTemp + delta) * 2) / 2
+        let nextTemp: Double
+        if emberMug.temperatureUnit == .fahrenheit {
+            // °F is shown in whole degrees, so step one whole °F at a time.
+            let currentF = fahrenheit(emberMug.targetTemp).rounded()
+            let nextF = currentF + (delta > 0 ? 1 : -1)
+            nextTemp = (((nextF - 32) * 5 / 9) * 100).rounded() / 100
+        } else {
+            nextTemp = round((emberMug.targetTemp + delta) * 2) / 2
+        }
         emberMug.setTargetTemp(temp: min(max(nextTemp, minTemp), maxTemp))
     }
 
