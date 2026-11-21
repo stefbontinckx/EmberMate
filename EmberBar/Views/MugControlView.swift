@@ -63,6 +63,7 @@ struct MugControlView: View {
             LinearGradient(colors: backgroundGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
                 .animation(.easeInOut(duration: 0.8), value: emberMug.currentTemp)
                 .animation(.easeInOut(duration: 0.8), value: isEmpty)
+                .animation(.easeInOut(duration: 0.8), value: emberMug.colour)
         )
         .foregroundStyle(.white)
         .environment(\.colorScheme, .dark) // UI is designed for a dark look on a warm background
@@ -240,10 +241,6 @@ struct MugControlView: View {
             Text("Today")
             Text("\(drinkTracker.cupsToday) cups")
                 .fontWeight(.semibold)
-            if drinkTracker.millilitersToday > 0 {
-                Text(verbatim: "·")
-                Text("about \(drinkTracker.millilitersToday) ml")
-            }
             Spacer()
         }
         .font(.caption)
@@ -264,48 +261,56 @@ struct MugControlView: View {
 
     // MARK: - Info tiles
 
+    // Two tiles side by side; with drinking tracked, "Poured" gets its own row.
+    @ViewBuilder
     private var infoTiles: some View {
-        LazyVGrid(columns: [GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)], spacing: 8) {
-            tile("Poured", systemImage: "drop.fill") {
-                if let pouredAt = drinkTracker.pouredAt {
-                    // Refresh the "x min ago" part even when nothing else changes.
-                    TimelineView(.periodic(from: .now, by: 30)) { context in
-                        let minutes = max(0, Int(context.date.timeIntervalSince(pouredAt) / 60))
-                        Text(pouredAt, style: .time) + Text(verbatim: " · ") + Text("\(minutes) min")
-                    }
-                } else if isEmpty {
-                    Text("Empty")
-                } else {
-                    Text(verbatim: "–")
-                }
-            }
-
-            tile("Ready", systemImage: readySymbol) {
-                if emberMug.isHeatingOff {
-                    Text("Heating off")
-                } else if emberMug.liquidState == .stableTemperature {
-                    Text("Now")
-                } else if let minutes = drinkTracker.minutesToTarget {
-                    Text("In \(minutes) min")
-                } else {
-                    Text(verbatim: "–")
-                }
-            }
-            .help("Estimate based on how fast the temperature is changing")
-
-            if trackDrinking {
-                tile("Today", systemImage: "cup.and.saucer.fill") {
-                    Text("\(drinkTracker.cupsToday) cups")
-                }
-                tile("Drunk", systemImage: "chart.bar.fill") {
-                    if drinkTracker.millilitersToday > 0 {
-                        Text("≈ \(drinkTracker.millilitersToday) ml")
-                    } else {
-                        Text(verbatim: "–")
+        if trackDrinking {
+            VStack(spacing: 8) {
+                pouredTile
+                HStack(spacing: 8) {
+                    readyTile
+                    tile("Today", systemImage: "cup.and.saucer.fill") {
+                        Text("\(drinkTracker.cupsToday) cups")
                     }
                 }
+            }
+        } else {
+            HStack(spacing: 8) {
+                pouredTile
+                readyTile
             }
         }
+    }
+
+    private var pouredTile: some View {
+        tile("Poured", systemImage: "drop.fill") {
+            if let pouredAt = drinkTracker.pouredAt {
+                // Refresh the "x min ago" part even when nothing else changes.
+                TimelineView(.periodic(from: .now, by: 30)) { context in
+                    let minutes = max(0, Int(context.date.timeIntervalSince(pouredAt) / 60))
+                    Text(pouredAt, style: .time) + Text(verbatim: " · ") + Text("\(minutes) min")
+                }
+            } else if isEmpty {
+                Text("Empty")
+            } else {
+                Text(verbatim: "–")
+            }
+        }
+    }
+
+    private var readyTile: some View {
+        tile("Ready", systemImage: readySymbol) {
+            if emberMug.isHeatingOff {
+                Text("Heating off")
+            } else if emberMug.liquidState == .stableTemperature {
+                Text("Now")
+            } else if let minutes = drinkTracker.minutesToTarget {
+                Text("In \(minutes) min")
+            } else {
+                Text(verbatim: "–")
+            }
+        }
+        .help("Estimate based on how fast the temperature is changing")
     }
 
     private var readySymbol: String {
@@ -387,9 +392,27 @@ struct MugControlView: View {
 
     private var backgroundGradient: [Color] {
         if isEmpty {
-            return [getColor(120, 120, 128), getColor(52, 52, 58)]
+            return emptyGradient(for: emberMug.colour)
         }
         return getBackgroundGradient(normalized(emberMug.currentTemp) * (maxTemp - minTemp))
+    }
+}
+
+// Background of an empty mug: a muted take on the mug's own finish.
+private func emptyGradient(for colour: MugColour?) -> [Color] {
+    switch colour {
+    case .white: [getColor(150, 150, 156), getColor(92, 92, 98)]
+    case .grey: [getColor(118, 120, 124), getColor(62, 64, 68)]
+    case .red: [getColor(140, 82, 84), getColor(66, 38, 42)]
+    case .blue: [getColor(84, 104, 140), getColor(38, 48, 70)]
+    case .copper: [getColor(150, 104, 80), getColor(70, 46, 36)]
+    case .gold: [getColor(150, 128, 82), getColor(72, 60, 36)]
+    case .roseGold: [getColor(152, 112, 110), getColor(72, 50, 52)]
+    case .stainlessSteel: [getColor(130, 136, 142), getColor(64, 68, 74)]
+    case .sandstone: [getColor(146, 130, 108), getColor(70, 62, 50)]
+    case .sageGreen: [getColor(110, 128, 106), getColor(50, 62, 50)]
+    case .black: [getColor(84, 84, 90), getColor(28, 28, 32)]
+    case nil: [getColor(120, 120, 128), getColor(52, 52, 58)]
     }
 }
 

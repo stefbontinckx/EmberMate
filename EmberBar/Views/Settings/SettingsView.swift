@@ -93,7 +93,7 @@ struct GeneralSettingsView: View {
                 if trackDrinking {
                     LabeledContent("Today") {
                         HStack {
-                            (Text("\(drinkTracker.cupsToday) cups") + Text(verbatim: " · ") + Text("about \(drinkTracker.millilitersToday) ml"))
+                            Text("\(drinkTracker.cupsToday) cups")
                                 .monospacedDigit()
                             Button("Reset") { drinkTracker.resetToday() }
                         }
@@ -102,7 +102,7 @@ struct GeneralSettingsView: View {
             } header: {
                 Text("Drinking")
             } footer: {
-                Text("A cup counts when the mug goes from filled to empty. Amounts are estimates and stay on this Mac.")
+                Text("A cup counts when the mug goes from filled to empty. This stays on this Mac.")
                     .foregroundStyle(.secondary)
             }
 
@@ -133,7 +133,6 @@ struct MugSettingsView: View {
     @EnvironmentObject private var bluetoothManager: BluetoothManager
 
     @State private var nameDraft = ""
-    @AppStorage(EmberMug.modelOverrideKey) private var modelOverride = ""
 
     private var isConnected: Bool { bluetoothManager.state == .connected }
 
@@ -233,42 +232,14 @@ struct MugSettingsView: View {
                 }
             }
 
-            Section {
-                Picker("Model", selection: $modelOverride) {
-                    if let model = emberMug.model {
-                        Text("Detected: \(model.displayName)").tag("")
-                    } else {
-                        Text("Not detected").tag("")
-                    }
-                    ForEach(MugModel.allCases, id: \.rawValue) { model in
-                        Text(verbatim: model.displayName).tag(model.rawValue)
-                    }
-                }
-
-                if (isConnected || bluetoothManager.isProbingModel) && emberMug.model == nil {
-                    LabeledContent {
-                        if bluetoothManager.isProbingModel {
-                            HStack(spacing: 6) {
-                                ProgressView().controlSize(.small)
-                                Text("Listening…")
-                            }
-                        } else {
-                            Button("Detect") { bluetoothManager.detectModel() }
-                        }
-                    } label: {
-                        Text("Detect automatically")
-                        Text("Hold the button on the bottom of the mug until the light blinks blue, then click Detect.")
-                    }
-                }
-            } header: {
-                Text("Model")
-            } footer: {
-                Text("The model sets the capacity used for volume estimates. The mug only senses roughly how full it is, so amounts are estimates.")
-                    .foregroundStyle(.secondary)
-            }
-
             if isConnected {
                 Section {
+                    if let model = emberMug.model {
+                        LabeledContent("Model", value: model.displayName)
+                    }
+                    if let colour = emberMug.colour {
+                        LabeledContent("Colour") { Text(colour.displayName) }
+                    }
                     if let firmware = emberMug.firmware {
                         LabeledContent("Firmware", value: String(firmware.firmware))
                         LabeledContent("Hardware", value: String(firmware.hardware))
@@ -279,6 +250,11 @@ struct MugSettingsView: View {
                     }
                 } header: {
                     Text("Details")
+                } footer: {
+                    if emberMug.model == nil || emberMug.colour == nil {
+                        Text("Model and colour show up once the mug has been in pairing mode: hold the button on the bottom until the light blinks blue.")
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
         }

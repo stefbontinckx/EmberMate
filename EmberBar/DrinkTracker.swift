@@ -3,7 +3,7 @@
 //  EmberBar
 //
 //  Estimates when the drink reaches its target temperature, and keeps a
-//  simple per-day tally of cups and millilitres. Both are estimates.
+//  simple per-day tally of cups.
 //
 
 import Foundation
@@ -15,13 +15,11 @@ final class DrinkTracker: ObservableObject {
     // Minutes until the drink reaches the target, while heating or cooling.
     @Published private(set) var minutesToTarget: Int?
     @Published private(set) var cupsToday = 0
-    @Published private(set) var millilitersToday = 0
     // When the current drink was poured (nil while the mug is empty).
     @Published private(set) var pouredAt: Date?
 
     private let emberMug: EmberMug
     private var samples: [(time: Date, temp: Double)] = []
-    private var fillVolume: Int?
     private var isFilled = false
     private var pendingFinish: DispatchWorkItem?
     private var cancellables: Set<AnyCancellable> = []
@@ -135,7 +133,6 @@ final class DrinkTracker: ObservableObject {
                 guard self.emberMug.liquidState == .empty else { return }
                 self.finishCup()
                 self.isFilled = false
-                self.fillVolume = nil
                 self.pouredAt = nil
             }
             pendingFinish = work
@@ -151,10 +148,6 @@ final class DrinkTracker: ObservableObject {
                 pouredAt = Date()
             }
             isFilled = true
-            // The highest reading during a fill is the best guess of what was poured.
-            if let volume = emberMug.estimatedVolumeML {
-                fillVolume = max(fillVolume ?? 0, volume)
-            }
         }
         updateEstimate()
     }
@@ -163,13 +156,11 @@ final class DrinkTracker: ObservableObject {
         guard isTracking else { return }
         loadToday()
         cupsToday += 1
-        millilitersToday += fillVolume ?? 0
         save()
     }
 
     func resetToday() {
         cupsToday = 0
-        millilitersToday = 0
         save()
     }
 
@@ -184,18 +175,14 @@ final class DrinkTracker: ObservableObject {
         if defaults.string(forKey: "drinkLog.day") != Self.todayKey {
             defaults.set(Self.todayKey, forKey: "drinkLog.day")
             defaults.set(0, forKey: "drinkLog.cups")
-            defaults.set(0, forKey: "drinkLog.ml")
         }
         let cups = defaults.integer(forKey: "drinkLog.cups")
-        let ml = defaults.integer(forKey: "drinkLog.ml")
         if cups != cupsToday { cupsToday = cups }
-        if ml != millilitersToday { millilitersToday = ml }
     }
 
     private func save() {
         let defaults = UserDefaults.standard
         defaults.set(Self.todayKey, forKey: "drinkLog.day")
         defaults.set(cupsToday, forKey: "drinkLog.cups")
-        defaults.set(millilitersToday, forKey: "drinkLog.ml")
     }
 }

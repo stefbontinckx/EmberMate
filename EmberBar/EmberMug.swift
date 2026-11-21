@@ -118,7 +118,6 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
     private static let lastTargetKey = "lastTargetTemp"
     // Only written when the user picks a target in EmberBar.
     private static let preferredTargetKey = "preferredTargetTemp"
-    static let modelOverrideKey = "mugModelOverride"
 
     @Published var batteryLevel: Int = 0 // 5 - 100
     @Published var isCharging: Bool = false
@@ -134,7 +133,9 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
     @Published private(set) var ledColor: LEDColor?
     @Published private(set) var name: String?
     @Published private(set) var firmware: FirmwareInfo?
+    // Only known after the mug was seen in pairing mode.
     @Published private(set) var model: MugModel?
+    @Published private(set) var colour: MugColour?
     // False once the mug refused a write. A mug that was reset and not set up
     // again in the Ember phone app rejects every change ("Writing is not permitted").
     @Published private(set) var canWrite: Bool?
@@ -180,27 +181,10 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
         return (Self.minTemp...Self.maxTemp).contains(stored) ? stored : 55
     }
 
-    // The model picked in Settings, otherwise the one read from the mug.
-    var effectiveModel: MugModel? {
-        UserDefaults.standard.string(forKey: Self.modelOverrideKey).flatMap(MugModel.init(rawValue:)) ?? model
-    }
-
-    var capacityML: Int? {
-        effectiveModel?.capacityML
-    }
-
     // How full the mug is (0...1), from the coarse level sensor.
     var estimatedFillFraction: Double? {
         guard liquidState != .empty, let level = liquidLevel, level > 0 else { return nil }
         return min(max(Double(level) / Self.fullLiquidLevel, 0), 1)
-    }
-
-    // Rough estimate of what's left in the mug. The level sensor is coarse,
-    // so this is only an indication.
-    var estimatedVolumeML: Int? {
-        guard let fraction = estimatedFillFraction, let capacity = capacityML else { return nil }
-        // Round to 10 ml so the number doesn't suggest more precision than there is.
-        return Int((fraction * Double(capacity) / 10).rounded()) * 10
     }
 
     override init() {
@@ -229,12 +213,15 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
         characteristics = [:]
         canWrite = nil
         model = MugModel.remembered(for: peripheral.identifier)
+        colour = MugColour.remembered(for: peripheral.identifier)
     }
 
-    func rememberModel(_ model: MugModel, for identifier: UUID) {
-        MugModel.remember(model, for: identifier)
+    func remember(model: MugModel?, colour: MugColour?, for identifier: UUID) {
+        if let model { MugModel.remember(model, for: identifier) }
+        if let colour { MugColour.remember(colour, for: identifier) }
         if peripheral?.identifier == identifier {
-            self.model = model
+            if let model { self.model = model }
+            if let colour { self.colour = colour }
         }
     }
 
