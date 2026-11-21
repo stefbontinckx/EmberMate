@@ -11,6 +11,9 @@ import Foundation
 import CoreBluetooth
 import Combine
 import SwiftUI
+import os
+
+private let log = Logger(subsystem: "be.bontinckx.EmberBar", category: "mug")
 
 enum LiquidState: Int {
     case standby = 0
@@ -111,6 +114,8 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
 
     private static let temperatureUnitKey = "temperatureUnit"
     private static let lastTargetKey = "lastTargetTemp"
+    // Only written when the user picks a target in EmberBar.
+    private static let preferredTargetKey = "preferredTargetTemp"
     static let modelOverrideKey = "mugModelOverride"
 
     @Published var batteryLevel: Int = 0 // 5 - 100
@@ -156,8 +161,16 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
         name ?? peripheral?.name ?? "Ember"
     }
 
-    // Last target the heater was set to, used to turn the heater back on.
+    // The target the user picked in EmberBar. It wins over whatever the mug
+    // reports (the mug or the Ember phone app can put back another value).
+    private var preferredTarget: Double? {
+        guard UserDefaults.standard.object(forKey: Self.preferredTargetKey) != nil else { return nil }
+        let value = UserDefaults.standard.double(forKey: Self.preferredTargetKey)
+        return (Self.minTemp...Self.maxTemp).contains(value) ? value : nil
+    }
+
     var lastActiveTarget: Double {
+        if let preferredTarget { return preferredTarget }
         let stored = UserDefaults.standard.double(forKey: Self.lastTargetKey)
         return (Self.minTemp...Self.maxTemp).contains(stored) ? stored : 55
     }
@@ -259,6 +272,7 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
 
         targetTemp = temp
         UserDefaults.standard.set(temp, forKey: Self.lastTargetKey)
+        UserDefaults.standard.set(temp, forKey: Self.preferredTargetKey)
         writeTarget(temp)
     }
 
@@ -325,9 +339,18 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
 
         switch kind {
         case .targetTemp:
-            targetTemp = Double(data.extractUInt16()) * 0.01
-            if (Self.minTemp...Self.maxTemp).contains(targetTemp) {
-                UserDefaults.standard.set(targetTemp, forKey: Self.lastTargetKey)
+            let reported = Double(data.extractUInt16()) * 0.01
+            if let preferred = preferredTarget, reported >= 1, abs(reported - preferred) > 0.05 {
+                // Heating is on but at another target than the user chose: put theirs back.
+                log.notice("Mug reported target \(reported, privacy: .public), restoring \(preferred, privacy: .public)")
+                targetTemp = preferred
+                writeTarget(preferred)
+            } else {
+                // 0 means heating is off (by the user or auto-off): leave that alone.
+                targetTemp = reported
+                if preferredTarget == nil, (Self.minTemp...Self.maxTemp).contains(reported) {
+                    UserDefaults.standard.set(reported, forKey: Self.lastTargetKey)
+                }
             }
         case .currentTemp:
             currentTemp = Double(data.extractUInt16()) * 0.01
