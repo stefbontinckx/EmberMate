@@ -48,6 +48,9 @@ struct EmberBarApp: App {
                 
                 if (appState.countdown != nil) {
                     Text(formatCountdown(appState.countdown!))
+                } else if isAtTemperature {
+                    // The check mark in the icon says it all.
+                    EmptyView()
                 } else if (bluetoothManager.state == .connected && emberMug.liquidState != .empty) {
                     // While heating or cooling, optionally show the time left instead;
                     // otherwise (or without an estimate yet) the temperature.
@@ -81,14 +84,18 @@ struct EmberBarApp: App {
         let connected = bluetoothManager.state == .connected
         if appState.countdown != nil {
             Image(systemName: "clock.fill")
-        } else if connected && emberMug.liquidState == .stableTemperature && !emberMug.isHeatingOff {
-            Image(systemName: "checkmark.circle.fill")
         } else if !connected || emberMug.liquidState == .empty {
             Image(nsImage: MenuBarIcon.mug(fill: 0))
         } else {
             // Unknown level: show the mug as full.
-            Image(nsImage: MenuBarIcon.mug(fill: emberMug.estimatedFillFraction ?? 1))
+            Image(nsImage: MenuBarIcon.mug(fill: emberMug.estimatedFillFraction ?? 1, check: isAtTemperature))
         }
+    }
+
+    private var isAtTemperature: Bool {
+        bluetoothManager.state == .connected
+            && emberMug.liquidState == .stableTemperature
+            && !emberMug.isHeatingOff
     }
 
     func formatCountdown(_ countdown: Int) -> String {

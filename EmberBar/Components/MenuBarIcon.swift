@@ -8,9 +8,10 @@
 import AppKit
 
 enum MenuBarIcon {
-    // `fill` is 0...1. Drawn as a template image so it adapts to the menu bar.
-    static func mug(fill: Double) -> NSImage {
-        let size = NSSize(width: 18, height: 16)
+    // `fill` is 0...1; `check` adds a check mark next to the mug.
+    // Drawn as a template image so it adapts to the menu bar.
+    static func mug(fill: Double, check: Bool = false) -> NSImage {
+        let size = NSSize(width: check ? 30 : 18, height: 16)
         let image = NSImage(size: size, flipped: false) { _ in
             let line: CGFloat = 1.5
             let body = NSRect(x: 2, y: 1.5, width: 10.5, height: 12.5)
@@ -39,6 +40,17 @@ enum MenuBarIcon {
                          controlPoint2: NSPoint(x: body.maxX + 4.5, y: 4.5))
             handle.lineWidth = line
             handle.stroke()
+
+            if check {
+                let mark = NSBezierPath()
+                mark.move(to: NSPoint(x: 20, y: 8))
+                mark.line(to: NSPoint(x: 23, y: 4.5))
+                mark.line(to: NSPoint(x: 28.5, y: 11.5))
+                mark.lineWidth = 2
+                mark.lineCapStyle = .round
+                mark.lineJoinStyle = .round
+                mark.stroke()
+            }
             return true
         }
         image.isTemplate = true

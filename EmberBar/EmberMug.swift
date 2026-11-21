@@ -109,8 +109,9 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
     // Range the mug accepts for a target temperature (°C). Writing 0 turns the heater off.
     static let minTemp = 50.0
     static let maxTemp = 63.0
-    // Liquid level reported by a mug when it is full (orlopau: 0 = empty, 30 = not empty).
-    static let fullLiquidLevel = 30.0
+    // The sensor nominally reads 0 (empty) to 30, but in practice a full mug
+    // reads far lower and drifts, so anything from 13 up counts as full.
+    static let fullLiquidLevel = 13.0
 
     private static let temperatureUnitKey = "temperatureUnit"
     private static let lastTargetKey = "lastTargetTemp"
