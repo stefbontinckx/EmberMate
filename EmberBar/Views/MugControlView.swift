@@ -163,8 +163,9 @@ struct MugControlView: View {
     @ViewBuilder
     private var statusChips: some View {
         let volume = emberMug.estimatedVolumeML
+        let fraction = emberMug.estimatedFillFraction
         let minutes = drinkTracker.minutesToTarget
-        if volume != nil || autoOff.deadline != nil || minutes != nil {
+        if fraction != nil || autoOff.deadline != nil || minutes != nil {
             HStack(spacing: 8) {
                 if let minutes {
                     chip(systemImage: emberMug.liquidState == .cooling ? "snowflake" : "flame.fill") {
@@ -177,6 +178,11 @@ struct MugControlView: View {
                         Text("About \(volume) ml")
                     }
                     .help("Estimate based on the mug's level sensor")
+                } else if let fraction {
+                    chip(systemImage: "drop.fill") {
+                        Text("About \(Int((fraction * 10).rounded()) * 10)% full")
+                    }
+                    .help("Pick your mug's capacity in Settings to see millilitres")
                 }
                 if let deadline = autoOff.deadline {
                     chip(systemImage: "timer") {

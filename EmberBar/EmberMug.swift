@@ -169,11 +169,16 @@ class EmberMug: NSObject, ObservableObject, CBPeripheralDelegate {
         return model?.capacityML
     }
 
+    // How full the mug is (0...1), from the coarse level sensor.
+    var estimatedFillFraction: Double? {
+        guard liquidState != .empty, let level = liquidLevel, level > 0 else { return nil }
+        return min(max(Double(level) / Self.fullLiquidLevel, 0), 1)
+    }
+
     // Rough estimate of what's left in the mug. The level sensor is coarse,
     // so this is only an indication.
     var estimatedVolumeML: Int? {
-        guard liquidState != .empty, let level = liquidLevel, let capacity = capacityML else { return nil }
-        let fraction = min(max(Double(level) / Self.fullLiquidLevel, 0), 1)
+        guard let fraction = estimatedFillFraction, let capacity = capacityML else { return nil }
         // Round to 10 ml so the number doesn't suggest more precision than there is.
         return Int((fraction * Double(capacity) / 10).rounded()) * 10
     }
