@@ -60,38 +60,63 @@ final class DrinkTracker: ObservableObject {
 
     // MARK: - Time to target
 
+    // Assumed room temperature for the cooling curve (°C).
+    private static let roomTemp = 22.0
+
     private func record(_ temp: Double) {
         guard temp > 0 else { return }
         let now = Date()
         samples.append((now, temp))
-        // A few minutes of history is enough to see the trend.
-        samples.removeAll { now.timeIntervalSince($0.time) > 240 }
+        // Only the last two minutes count, so an early bump (e.g. the sensor
+        // warming up right after pouring) doesn't hide the real trend for long.
+        samples.removeAll { now.timeIntervalSince($0.time) > 120 }
         updateEstimate()
     }
 
+    // Least-squares slope of the recent samples, in °C per second.
+    private var slope: Double? {
+        guard samples.count >= 3, let first = samples.first, let last = samples.last,
+              last.time.timeIntervalSince(first.time) >= 30 else { return nil }
+        let xs = samples.map { $0.time.timeIntervalSince(first.time) }
+        let ys = samples.map(\.temp)
+        let meanX = xs.reduce(0, +) / Double(xs.count)
+        let meanY = ys.reduce(0, +) / Double(ys.count)
+        var numerator = 0.0, denominator = 0.0
+        for (x, y) in zip(xs, ys) {
+            numerator += (x - meanX) * (y - meanY)
+            denominator += (x - meanX) * (x - meanX)
+        }
+        return denominator > 0 ? numerator / denominator : nil
+    }
+
     private func updateEstimate() {
+        let estimate = computeEstimate()
+        if minutesToTarget != estimate { minutesToTarget = estimate }
+    }
+
+    private func computeEstimate() -> Int? {
         let state = emberMug.liquidState
         let target = emberMug.targetTemp
         let current = emberMug.currentTemp
         let gap = target - current
 
         guard !emberMug.isHeatingOff, state == .heating || state == .cooling, abs(gap) >= 0.3,
-              let first = samples.first, let last = samples.last else {
-            if minutesToTarget != nil { minutesToTarget = nil }
-            return
+              let slope, slope != 0, (gap > 0) == (slope > 0) else { return nil }
+
+        let seconds: Double
+        if gap < 0 && target > Self.roomTemp + 1 && current > Self.roomTemp + 1 {
+            // Cooling follows Newton's law: it slows down as the drink nears room
+            // temperature, so a straight line would be too optimistic.
+            let k = -slope / (current - Self.roomTemp)
+            seconds = log((current - Self.roomTemp) / (target - Self.roomTemp)) / k
+        } else {
+            // The heater adds heat at a fairly steady rate.
+            seconds = gap / slope
         }
 
-        let elapsed = last.time.timeIntervalSince(first.time)
-        let rate = (last.temp - first.temp) / max(elapsed, 1) // °C per second
-        // Need at least half a minute of data moving in the right direction.
-        guard elapsed >= 30, rate != 0, (gap > 0) == (rate > 0) else {
-            if minutesToTarget != nil { minutesToTarget = nil }
-            return
-        }
-
-        let minutes = max(1, Int((gap / rate / 60).rounded(.up)))
-        let estimate = minutes > 90 ? nil : minutes
-        if minutesToTarget != estimate { minutesToTarget = estimate }
+        guard seconds.isFinite, seconds > 0 else { return nil }
+        let minutes = max(1, Int((seconds / 60).rounded(.up)))
+        return minutes > 120 ? nil : minutes
     }
 
     // MARK: - Daily log
@@ -117,6 +142,10 @@ final class DrinkTracker: ObservableObject {
         default:
             pendingFinish?.cancel()
             pendingFinish = nil
+            if !isFilled {
+                // A new pour: readings from the empty mug say nothing about this drink.
+                samples.removeAll()
+            }
             isFilled = true
             // The highest reading during a fill is the best guess of what was poured.
             if let volume = emberMug.estimatedVolumeML {
