@@ -277,6 +277,7 @@ struct MugSettingsView: View {
 struct PresetsSettingsView: View {
     @EnvironmentObject private var appState: AppState
     @AppStorage("showPresets") private var showPresets = false
+    @AppStorage("showTimers") private var showTimers = true
 
     var body: some View {
         Form {
@@ -310,6 +311,7 @@ struct PresetsSettingsView: View {
             }
 
             Section {
+                Toggle("Show timers in the menu bar window", isOn: $showTimers)
                 ForEach(appState.timers.indices, id: \.self) { index in
                     LabeledContent {
                         HStack(spacing: 10) {

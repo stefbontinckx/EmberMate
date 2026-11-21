@@ -15,6 +15,7 @@ struct MugControlView: View {
     @EnvironmentObject private var drinkTracker: DrinkTracker
     @AppStorage(DrinkTracker.trackingKey) private var trackDrinking = true
     @AppStorage("showPresets") private var showPresets = false
+    @AppStorage("showTimers") private var showTimers = true
 
     @Environment(\.openSettings_backport) private var openSettings
     @Environment(\.dismiss) private var dismiss
@@ -43,7 +44,7 @@ struct MugControlView: View {
                 }
             }
 
-            if !appState.timers.isEmpty {
+            if showTimers && !appState.timers.isEmpty {
                 TimerView()
             }
 
