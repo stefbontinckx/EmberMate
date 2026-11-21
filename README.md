@@ -13,9 +13,11 @@ EmberBar is a fork of [EmberMate](https://github.com/matthewnitschke/EmberMate) 
 - The °C/°F choice is stored in the app and pushed to the mug, so it no longer falls back to °F.
 - Redesigned menu bar window: temperature ring, mug status, power button, +/− controls and preset cards.
 - Heating can be turned off, by hand or automatically a set time after filling the mug.
-- Estimates: time until the drink reaches its target, how much is left in the mug, and cups and millilitres drunk today (optional, stored only on this Mac).
-- Mug settings: rename the mug, LED colour swatches with brightness, capacity, model and firmware details.
-- Notifications arrive with banner and sound, including "fully charged" and "heating stopped".
+- Estimates: time until the drink reaches its target, when it was poured, and cups drunk today (optional, stored only on this Mac).
+- Mug settings: rename the mug, LED colour swatches with brightness, and model, colour and firmware details. Model and colour are recognised automatically once the mug has been in pairing mode.
+- The window adapts its look to the colour of the mug.
+- Notifications arrive with banner and sound, including "fully charged" and "heating stopped", without repeats when the battery hovers around a threshold.
+- Handles Bluetooth turning off and on, and remembers which mug you picked.
 - Translated into Dutch, French, German, Spanish, Italian, Portuguese, Polish, Swedish, Danish, Norwegian, Finnish and Japanese.
 - New app icon, no update checks against the upstream project, and fixes for several crashes in the Bluetooth code.
 
